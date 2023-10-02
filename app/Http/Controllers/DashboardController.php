@@ -13,12 +13,12 @@ class DashboardController extends Controller
     {
         $data = [
             "user" => Auth::user()->name,
-            "pengguna" => User::count(),
-            "pembayaran" => Shipment::where('status', 'Pembayaran')->count(),
-            "approve" => Shipment::where('status', 'Approve')->count(),
-            "delivery" => Shipment::where('status', 'Delivery')->count(),
-            "jalur_merah" => Shipment::where('status', 'Jalur Merah')->count(),
-            "spv_verif" => Shipment::where('status', 'spv-verification')->count()
+            // "pengguna" => User::count(),
+            // "pembayaran" => Shipment::where('status', 'Pembayaran')->count(),
+            // "approve" => Shipment::where('status', 'Approve')->count(),
+            // "delivery" => Shipment::where('status', 'Delivery')->count(),
+            // "jalur_merah" => Shipment::where('status', 'Jalur Merah')->count(),
+            // "spv_verif" => Shipment::where('status', 'spv-verification')->count()
         ];
         return view("dashboard", $data);
     }

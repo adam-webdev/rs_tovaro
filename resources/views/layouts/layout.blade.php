@@ -2,24 +2,15 @@
 <html lang="en">
 
 <head>
+
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <link rel="icon" type="image/jpg" sizes="16x16" href="/favicon.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
@@ -33,8 +24,22 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('asset/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+        type="text/css">
+
+    @yield('css')
+    <style>
+        a.nav-link span,
+        a.nav-link i {
+            font-weight: 700;
+            color: #0000aa;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -44,12 +49,13 @@
 
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar accordion" id="accordionSidebar"
-            style="background: hsl(217, 87%, 26%); color:#fff;">
+            style="background: hsl(0, 0%, 100%); color:#0000aa;">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand text-white d-flex align-items-center justify-content-center" href="#">
-                <div class="sidebar-brand-icon rotate-n-0">
-                    <img src="{{ asset('asset/img/inalum.png') }}" width="120">
+            <a class="sidebar-brand text-white d-flex align-items-center justify-content-center" href="#"
+                style="margin-top:20px">
+                <div class="sidebar-brand-icon ">
+                    <img src="{{ asset('asset/img/bali.jpg') }}" width="120" style="border:solid 1px black ">
                 </div>
             </a>
 
@@ -95,13 +101,13 @@
                     </div>
                 </div>
             </li> --}}
-            @role('Admin')
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('user.index') }}">
-                        <i class="fas fa-users"></i>
-                        <span>Data Pengguna</span></a>
-                </li>
-                <li class="nav-item">
+            {{-- @role('Admin') --}}
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ route('wisata.index') }}">
+                    <i class="fas fa-globe-asia"></i>
+                    <span>Data Wisata</span></a>
+            </li>
+            {{-- <li class="nav-item">
                     <a class="nav-link text-white" href="{{ route('posisi.index') }}">
                         <i class="fas fa-user-alt "></i>
                         <span>Posisi</span></a>
@@ -121,7 +127,7 @@
                 <a class="nav-link text-white" href="{{ route('transaksi.index') }}">
                     <i class="fas fa-shopping-cart"></i>
                     <span>Transaksi</span></a>
-            </li>
+            </li> --}}
 
             {{-- @endrole --}}
             <!-- Nav Item - Pages Collapse Menu -->
@@ -180,7 +186,7 @@
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <div class="input-group-append">
-                                <h4>Sistem informasi customs clearance</h4>
+                                <h4>Sistem Wisata </h4>
                             </div>
                         </div>
                     </form>
@@ -257,7 +263,7 @@
             <footer class="sticky-footer  bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Create By: Salsa<br>Copyright &copy; Sistem PT. Asahan Alumunium. </span>
+                        <span>Create By: User<br>Copyright &copy; Sistem Dashboard. </span>
                     </div>
                 </div>
             </footer>
@@ -320,6 +326,9 @@
     <script src="{{ asset('asset/js/demo/chart-pie-demo.js') }}"></script>
     <script src="{{ asset('asset/js/demo/datatables-demo.js') }}"></script>
     <script src="{{ asset('asset/vendor/select2/dist/js/select2.min.js') }}"></script>
+
+
+
     @yield('scripts')
 
 </body>

@@ -123,6 +123,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'mapbox_api_key' => env('MAPBOX_API_KEY'),
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -229,7 +230,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'PDF'=>Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

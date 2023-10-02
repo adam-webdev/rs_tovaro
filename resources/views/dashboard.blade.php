@@ -3,7 +3,7 @@
     <div class="card p-2">
         <h4 class="p-2">Selamat Datang <b>{{ $user }}</b></h4>
         <div class="row px-4 mt-3 justify-content-between align-items-center">
-            <div class="col-md-2">
+            {{-- <div class="col-md-2">
                 <img src="{{ asset('asset/img/approve.svg') }}" width="50px" alt="">
                 <p style="font-size: 20px; margin-top:10px"> {{ $approve }}</p>
                 <p>PIB Proses Approve</p>
@@ -29,7 +29,7 @@
                 <img src="{{ asset('asset/img/ceklis.png') }}" width="50px" alt="">
                 <p style="font-size: 20px; margin-top:10px"> {{ $spv_verif }}</p>
                 <p>Spv Verification</p>
-            </div>
+            </div> --}}
         </div>
 
     </div>

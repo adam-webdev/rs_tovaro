@@ -30,8 +30,8 @@
                             <div class="col-lg-20">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Sistem Informasi PT. Asahan Alumunium<br><br>
-                                            <br><img src="{{ asset('asset/img/inalum.png') }}" width="160">
+                                        <h1 class="h4 text-gray-900 mb-4">Sistem Admin Wisata<br><br>
+                                            <br><img src="{{ asset('asset/img/bali.jpg') }}" width="160">
                                         </h1>
                                     </div>
                                     <form method="POST" action="{{ route('login') }}">
