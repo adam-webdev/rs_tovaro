@@ -36,8 +36,8 @@
                             <tr align="center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $t->nama_wisata }}</td>
-                                <td>{{ $t->jam_buka }}</td>
-                                <td>{{ $t->jam_tutup }}</td>
+                                <td><span class="badge badge-success">{{ $t->jam_buka }}</span></td>
+                                <td><span class="badge badge-danger">{{ $t->jam_tutup }}</span></td>
                                 <td>
                                     <img style="display:block;10px!important;border-radius:8px" width="200"
                                         src="/storage/{{ $t->banner }}" alt="" />

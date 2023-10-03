@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Wisata;
 use App\Models\WisataImages;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class WisataController extends Controller
@@ -92,8 +93,8 @@ class WisataController extends Controller
      */
     public function show($id)
     {
-        $wisata = Wisata::find($id);
-        return view('wisata.show', compact('wisata'));
+        $wisata = Wisata::with('wisataimages')->where('id', $id)->first();
+        return view('wisata.detail', compact('wisata'));
     }
 
     /**
@@ -104,7 +105,7 @@ class WisataController extends Controller
      */
     public function edit($id)
     {
-        $wisata = Wisata::find($id);
+        $wisata = Wisata::with('wisataimages')->where('id', $id)->first();
         return view('wisata.edit', compact('wisata'));
     }
 
@@ -117,6 +118,68 @@ class WisataController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_wisata' => 'required',
+            'deskripsi' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'images.*' => 'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|',
+            'banner' => 'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|'
+        ]);
+        // ddd($request->all());
+
+
+        $edit_wisata =  Wisata::findOrFail($id);
+        $inputbanner = $request->file('banner');
+        if ($inputbanner) {
+            // jika ada request banner hapus yang lama di storage
+            if (Storage::disk('public')->exists($edit_wisata->banner)) {
+                Storage::disk('public')->delete($edit_wisata->banner);
+            }
+            $originalName = $inputbanner->getClientOriginalName();
+            $unikName = time() . "-" . $originalName;
+            $banner = $inputbanner->storeAs('wisata/banner', $unikName);
+        } else {
+            $banner = $edit_wisata->banner;
+        }
+        $edit_wisata->nama_wisata = $request->nama_wisata;
+        $edit_wisata->deskripsi = $request->deskripsi;
+        $edit_wisata->latitude = $request->latitude;
+        $edit_wisata->longitude = $request->longitude;
+        $edit_wisata->harga = $request->harga;
+        $edit_wisata->jam_buka = $request->jam_buka;
+        $edit_wisata->jam_tutup = $request->jam_tutup;
+        $edit_wisata->banner = $banner;
+        $edit_wisata->kecamatan = $request->kecamatan;
+        $edit_wisata->kota = $request->kota;
+        $edit_wisata->provinsi = $request->provinsi;
+        $edit_wisata->save();
+
+        $inputWisataImages = $request->file('images');
+
+        $edit_image_wisata = WisataImages::where('wisata_id', $id)->get();
+
+        if ($inputWisataImages) {
+            foreach ($edit_image_wisata as $item) {
+                if (Storage::disk('public')->exists($item->path)) {
+                    Storage::disk('public')->delete($item->path);
+                    $item->delete();
+                }
+            }
+
+            foreach ($inputWisataImages as $img) {
+                $imgName = $img->getClientOriginalName();
+                $imgUnikName = time() . "-" . $imgName;
+                $imgWisata = $img->storeAs('wisata/images', $imgUnikName);
+                $add_wisata_image = new WisataImages();
+                $add_wisata_image->wisata_id = $id;
+                $add_wisata_image->path = $imgWisata;
+                $add_wisata_image->save();
+            }
+        }
+
+        Alert::success('Berhasil', 'Data berhasil ditambahkan!');
+        return redirect()->route('wisata.index');
     }
 
     /**

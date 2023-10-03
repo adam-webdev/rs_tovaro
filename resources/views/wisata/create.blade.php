@@ -367,7 +367,9 @@
 
         const geocoder = new MapboxGeocoder({
             accessToken: token,
-            mapboxgl
+            mapboxgl,
+            countries: "id",
+            language: "id"
         });
 
         map.addControl(
