@@ -178,7 +178,7 @@ class WisataController extends Controller
             }
         }
 
-        Alert::success('Berhasil', 'Data berhasil ditambahkan!');
+        Alert::success('Berhasil', 'Data berhasil diubah!');
         return redirect()->route('wisata.index');
     }
 
@@ -188,8 +188,20 @@ class WisataController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
-        //
+        $wisata = Wisata::findOrFail($id);
+        $wisata_images = WisataImages::where('wisata_id', $id)->get();
+        foreach ($wisata_images as $item) {
+            if (Storage::disk('public')->exists($item->path)) {
+                Storage::disk('public')->delete($item->path);
+            }
+        }
+        if (Storage::disk('public')->exists($wisata->banner)) {
+            Storage::disk('public')->delete($wisata->banner);
+        }
+        $wisata->delete();
+        Alert::success('Berhasil', 'Data berhasil dihapus!');
+        return redirect()->route('wisata.index');
     }
 }

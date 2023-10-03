@@ -37,7 +37,15 @@
         a.nav-link span,
         a.nav-link i {
             font-weight: 700;
-            color: #0000aa;
+            color: black;
+
+        }
+
+
+
+        a.nav-link:hover {
+            background: rgb(232, 232, 242);
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -52,11 +60,12 @@
             style="background: hsl(0, 0%, 100%); color:#0000aa;">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand text-white d-flex align-items-center justify-content-center" href="#"
-                style="margin-top:20px">
-                <div class="sidebar-brand-icon ">
+            <a class="sidebar-brand text-dark font-weight-bold d-flex align-items-center justify-content-center"
+                href="#" style="margin-top:20px">
+                {{-- <div class="sidebar-brand-icon ">
                     <img src="{{ asset('asset/img/bali.jpg') }}" width="120" style="border:solid 1px black ">
-                </div>
+                </div> --}}
+                Wisata
             </a>
 
             <!-- Divider -->
@@ -107,11 +116,12 @@
                     <i class="fas fa-globe-asia"></i>
                     <span>Data Wisata</span></a>
             </li>
-            {{-- <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('posisi.index') }}">
-                        <i class="fas fa-user-alt "></i>
-                        <span>Posisi</span></a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ route('user.index') }}">
+                    <i class="fas fa-user-alt "></i>
+                    <span>User</span></a>
+            </li>
+            {{--
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ route('seksi.index') }}">
                         <i class="fas fa-folder"></i>
@@ -160,9 +170,9 @@
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
+            {{-- <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+            </div> --}}
 
         </ul>
         <!-- End of Sidebar -->
@@ -174,11 +184,12 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <nav class="navbar navbar-expand  topbar bg-white static-top shadow"
+                    style="margin:10px 20px;border-radius:14px;background-color:rgb(255, 255, 255)!important;">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
+                    <button id="sidebarToggleTop" class="btn btn-linkrounded-circle mr-3">
+                        <i class="fas fa-bars"></i>
                     </button>
 
                     <!-- Topbar Search -->
@@ -186,7 +197,7 @@
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <div class="input-group-append">
-                                <h4>Sistem Wisata </h4>
+                                <h4 class="text-dark font-weight-bold">Sistem Wisata </h4>
                             </div>
                         </div>
                     </form>
@@ -260,7 +271,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer  bg-white">
+            <footer class="sticky-footer">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Create By: User<br>Copyright &copy; Sistem Dashboard. </span>
