@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return view('admin.user', compact('user'));
+        return view('user.index', compact('user'));
     }
 
     /**
@@ -39,17 +39,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3|max:100|string',
+            'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
-            'nik' => 'required',
             'foto' =>  'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|',
             'no_hp' => 'required|min:10|max:13',
+            'password' => 'required',
+            'jenis_kelamin' => 'required'
         ]);
+
         $foto = $request->file('foto');
         if ($foto) {
             $originalName = $foto->getClientOriginalName();
-            $unik = time(). '-'. $originalName;
-            $picture = $foto->storeAs('user/profil',$unik);
+            $unik = time() . '-' . $originalName;
+            $picture = $foto->storeAs('user/profil', $unik);
         } else {
             $picture = 'user/profil/default.jpg';
         }
@@ -62,14 +64,11 @@ class UserController extends Controller
         $new_user->foto = $picture;
         $new_user->email = $request->email;
         $new_user->password = bcrypt($request->password);
-        if ($request->get('roles') === "Admin") {
-            $new_user->assignRole("Admin");
-        } else if ($request->get('roles') === "Manager") {
-            $new_user->assignRole("Manager");
-        } else if ($request->get('roles') === "Staff") {
-            $new_user->assignRole("Staff");
+
+        if ($request->role) {
+            $new_user->assignRole($request->role);
         } else {
-            $new_user->assignRole("User");
+            $new_user->assignRole('User');
         }
         $new_user->save();
         Alert::success("Tersimpan", "Data Berhasil Disimpan!");
@@ -83,8 +82,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with('posisi', 'seksi', 'pgr')->where('id', $id)->first();
-        return view('admin.profile', compact('user'));
+        $user = User::findOrFail($id);
+        return view('user.profile', compact('user'));
     }
 
     /**
@@ -97,7 +96,7 @@ class UserController extends Controller
     {
         $user = User::findOrfail($id);
 
-        return view('admin.edit', compact('user'));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -109,41 +108,49 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|min:3|max:100|string',
+            'email' => 'required',
+            'foto' =>  'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|',
+            'no_hp' => 'required|min:10|max:13',
+            'jenis_kelamin' => 'required'
+        ]);
+
         $user = User::findOrfail($id);
         $foto = $request->file('foto');
         if ($foto) {
-            Storage::delete($user->foto);
-            $foto = $foto->store('user/profil');
+            if (Storage::disk('public')->exists($user->foto)) {
+                Storage::disk('public')->delete($user->foto);
+            }
+            $originalName = $foto->getClientOriginalName();
+            $unik = time() . '-' . $originalName;
+            $picture = $foto->storeAs('user/profil', $unik);
         } else {
-            $foto = $user->foto;
+            $picture = $user->foto;
         }
 
         $user->name = $request->name;
         $user->nik = $request->nik;
-        $user->posisi_id = $request->posisi_id;
-        $user->seksi_id = $request->seksi_id;
         $user->jenis_kelamin = $request->jenis_kelamin;
-        $user->foto = $foto;
-        $user->pgr_id = $request->pgr_id;
+        $user->foto = $picture;
+        $user->no_hp = $request->no_hp;
         $user->email = $request->email;
+
         if ($request->password) {
             $password = bcrypt($request->password);
         } else {
             $password = $user->password;
         }
         $user->password = $password;
-        if ($request->get('roles') === "Admin") {
-            $user->syncRoles("Admin");
-        } else if ($request->get('roles') === "Manager") {
-            $user->syncRoles("Manager");
-        } else if ($request->get('roles') === "Staff") {
-            $user->syncRoles("Staff");
+
+        if ($request->role && $request->role === "Admin") {
+            $user->assignRole($request->role);
         } else {
-            $user->syncRoles("User");
+            $user->assignRole('User');
         }
         $user->save();
         Alert::success("Tersimpan", "Data Berhasil Disimpan!");
-        return redirect()->route('user.show', [$id]);
+        return redirect()->route('user.index');
     }
 
     /**
@@ -155,6 +162,9 @@ class UserController extends Controller
     public function delete($id)
     {
         $user = User::findOrFail($id);
+        if (Storage::disk('public')->exists($user->foto)) {
+            Storage::disk('public')->delete($user->foto);
+        }
         $user->delete();
         $user->removeRole("Admin", "Manager", "User");
         Alert::success("Terhapus", "Data Berhasil Terhapus");
