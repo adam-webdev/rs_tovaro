@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'Transaksi')
+@section('title', 'Data Wisata')
 @section('content')
     @include('sweetalert::alert')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -76,7 +76,7 @@
                                             <i class="fas fa-edit fa-sm text-white-50"></i>
                                         </a>
                                         <a href="/wisata/hapus/{{ $t->id }}" data-toggle="tooltip" title="Hapus"
-                                            onclick="return confirm('Yakin Ingin menghapus data?')"
+                                            onclick="return confirm('Yakin Ingin menghapus ?')"
                                             class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm">
                                             <i class="fas fa-trash-alt fa-sm text-white-50"></i>
                                         </a>

@@ -1,17 +1,27 @@
 @extends('layouts.layout')
+@section('title', 'Profile')
+
 @section('content')
-    <div class="card p-2">
+    <div class="card p-4">
+        <div class="d-sm-flex align-items-center justify-content-between ">
+            <h1 class="h3 mb-0 text-gray-800">Detail Data User </h1>
+            <!-- Button trigger modal -->
+            <a href="{{ route('user.edit', [$user->id]) }}" data-toggle="tooltip" title="Edit"
+                class="d-none  d-sm-inline-block btn btn-primary shadow-sm">
+                <i class="fas fa-edit text-white-50"></i>
+                {{-- <i class="fa-solid fa-pen-to-square"></i> --}}
+            </a>
+        </div>
+        <hr>
         <h4 class="mb-4">Profile</h4>
         <div class="row">
             <div class="col-md-3" style="display: flex; justify-content:space-between; flex-direction:column;">
                 @if ($user->foto != 'default.jpg')
-                    <img class="flex-1" src="/storage/{{ $user->foto }}" width="200px" alt="foto profile">
+                    <img class="flex-1" style="border:2px solid black" src="/storage/{{ $user->foto }}" width="200px"
+                        alt="foto profile">
                 @else
                     <img class="flex-1" src="{{ asset('asset/img/profile.png') }}" width="200px" alt="foto profile">
                 @endif
-                <a style="margin-top:100px; display:block;" class=" btn btn-secondary"
-                    href="{{ route('user.edit', [$user->id]) }}">Edit
-                    Profile</a>
             </div>
             <div class="col-md-6">
                 <table class="table table-bordered">
@@ -24,6 +34,10 @@
                         <td> <b>{{ $user->email }}</b></td>
                     </tr>
                     <tr>
+                        <td>No HP</td>
+                        <td> <b>{{ $user->email }}</b></td>
+                    </tr>
+                    <tr>
                         <td>Nik</td>
                         <td> <b>{{ $user->nik }}</b></td>
                     </tr>
@@ -31,21 +45,6 @@
                         <td>Jenis Kelamin</td>
                         <td> <b>{{ $user->jenis_kelamin }}</b></td>
                     </tr>
-                    <tr>
-                        <td>Posisi</td>
-                        <td> <b>{{ $user->posisi->nama_posisi }}</b></td>
-                    </tr>
-
-                    <tr>
-                        <td>Seksi</td>
-                        <td> <b>{{ $user->seksi->nama_seksi }}</b></td>
-                    </tr>
-
-                    <tr>
-                        <td>Kode PGR</td>
-                        <td> <b>{{ $user->pgr->kode_pgr }}</b></td>
-                    </tr>
-
                 </table>
 
             </div>

@@ -1,4 +1,5 @@
 @extends('layouts.layout')
+@section('title', 'Create Data Wisata')
 @section('css')
     <style>
         .wrapp-image {

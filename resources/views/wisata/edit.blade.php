@@ -1,4 +1,6 @@
 @extends('layouts.layout')
+@section('title', 'Edit Wisata')
+
 @section('css')
     <style>
         .wrapp-image {

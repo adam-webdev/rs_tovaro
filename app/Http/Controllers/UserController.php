@@ -99,6 +99,17 @@ class UserController extends Controller
         return view('user.edit', compact('user'));
     }
 
+    public function profile($id)
+    {
+        $user = User::findOrfail($id);
+        return view('front.user.profile', compact('user'));
+    }
+
+    public function editprofile($id)
+    {
+        $user = User::findOrfail($id);
+        return view('front.user.edit', compact('user'));
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -143,14 +154,52 @@ class UserController extends Controller
         }
         $user->password = $password;
 
-        if ($request->role && $request->role === "Admin") {
-            $user->assignRole($request->role);
-        } else {
-            $user->assignRole('User');
-        }
+
         $user->save();
         Alert::success("Tersimpan", "Data Berhasil Disimpan!");
         return redirect()->route('user.index');
+    }
+
+    public function updateprofile(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|min:3|max:100|string',
+            'email' => 'required',
+            'foto' =>  'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|',
+            'no_hp' => 'required|min:10|max:13',
+            'jenis_kelamin' => 'required'
+        ]);
+
+        $user = User::findOrfail($id);
+        $foto = $request->file('foto');
+        if ($foto) {
+            if (Storage::disk('public')->exists($user->foto)) {
+                Storage::disk('public')->delete($user->foto);
+            }
+            $originalName = $foto->getClientOriginalName();
+            $unik = time() . '-' . $originalName;
+            $picture = $foto->storeAs('user/profil', $unik);
+        } else {
+            $picture = $user->foto;
+        }
+
+        $user->name = $request->name;
+        $user->nik = $request->nik;
+        $user->jenis_kelamin = $request->jenis_kelamin;
+        $user->foto = $picture;
+        $user->no_hp = $request->no_hp;
+        $user->email = $request->email;
+
+        if ($request->password) {
+            $password = bcrypt($request->password);
+        } else {
+            $password = $user->password;
+        }
+        $user->password = $password;
+
+        $user->save();
+        Alert::success("Tersimpan", "Data Berhasil Disimpan!");
+        return redirect()->route('user.profile', [$id]);
     }
 
     /**

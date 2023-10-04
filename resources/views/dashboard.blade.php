@@ -1,4 +1,6 @@
 @extends('layouts.layout')
+@section('title', 'Dashboard')
+
 @section('content')
     <div class="card p-2">
         <h4 class="p-2">Selamat Datang <b>{{ $user }}</b></h4>
