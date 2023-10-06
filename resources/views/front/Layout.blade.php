@@ -56,125 +56,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav sidebar accordion" id="accordionSidebar"
-            style="background: hsl(0, 0%, 100%); color:#0000aa;">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand text-dark font-weight-bold d-flex align-items-center justify-content-center"
-                href="/" style="margin-top:20px">
-                {{-- <div class="sidebar-brand-icon ">
-                    <img src="{{ asset('asset/img/bali.jpg') }}" width="120" style="border:solid 1px black ">
-                </div> --}}
-                Wisata
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('dashboard') }}">
-                    <i class="fa fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link collapsed text-white" href="{{ route('user.index') }}" data-toggle="collapse"
-                    data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder-open"></i>
-                    <span>Menu Master</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item fas fa-folder" href="{{ route('barang.index') }}"> Master Barang </a>
-
-                    </div>
-                </div>
-            </li> --}}
-
-            {{-- <li class="nav-item">
-                <a class="nav-link collapsed text-white" href="#" data-toggle="collapse"
-                    data-target="#collapsePages3" aria-expanded="true" aria-controls="collapsePages3">
-                    <i class="fas fa-fw fa-folder-open"></i>
-                    <span>Data History</span>
-                </a>
-                <div id="collapsePages3" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item fas fa-folder" href="{{ route('history-barang.index') }}"> History
-                            Barang </a>
-                        <a class="collapse-item fas fa-arrow-circle-left" href="{{ route('history-kondisi.index') }}">
-                            History Kondisi </a>
-
-                    </div>
-                </div>
-            </li> --}}
-            {{-- @role('Admin') --}}
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('wisata.index') }}">
-                    <i class="fas fa-globe-asia"></i>
-                    <span>Data Wisata</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('user.index') }}">
-                    <i class="fas fa-user-alt "></i>
-                    <span>User</span></a>
-            </li>
-            {{--
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('seksi.index') }}">
-                        <i class="fas fa-folder"></i>
-                        <span>Seksi</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('pgr.index') }}">
-                        <i class="fas fa-file"></i>
-                        <span>PGR</span></a>
-                </li>
-            @endrole
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('transaksi.index') }}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Transaksi</span></a>
-            </li> --}}
-
-            {{-- @endrole --}}
-            <!-- Nav Item - Pages Collapse Menu -->
-
-            {{-- <li class="nav-item">
-                <a class="nav-link collapsed text-white" href="{{ route('laporan.barang') }}" data-toggle="collapse"
-                    data-target="#collapsePages1" aria-expanded="true" aria-controls="collapsePages1">
-                    <i class="far fa-file-pdf"></i>
-                    <span>Laporan</span>
-                </a>
-                <div id="collapsePages1" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item fas fa-arrow-circle-right" href="{{ route('laporan.barang') }}">
-                            Barang </a>
-
-                    </div>
-                </div>
-            </li> --}}
-
-            <!-- Nav Item - Tables -->
-            {{-- <li class="nav-item">
-                <a class="nav-link text-white" href="/pengaturan/1">
-                    <i class="fas fa-cog"></i>
-                    <span>Pengaturan</span></a>
-            </li> --}}
-
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            {{-- <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div> --}}
-
-        </ul>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -188,9 +70,11 @@
                     style="margin:10px 20px;border-radius:14px;background-color:rgb(255, 255, 255)!important;">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-linkrounded-circle mr-3">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                    <a href="/">
+                        <button id="sidebarToggleTop" class="btn btn-linkrounded-circle mr-3">
+                            <i class="fas fa-home"></i>
+                        </button>
+                    </a>
 
                     <!-- Topbar Search -->
                     <form
@@ -241,13 +125,12 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ route('user.show', [Auth::user()->id]) }}">
+                                <a class="dropdown-item" href="{{ route('user.profile', [Auth::user()->id]) }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal"
-                                    data-target="#logoutModal">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
                                 </a>
@@ -271,17 +154,17 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer">
+            <footer class="sticky-footer" style="bottom:0>
                 <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Create By: User<br>Copyright &copy; Sistem Dashboard. </span>
-                    </div>
+                <div class="copyright text-center my-auto">
+                    <span>Create By: Wulan<br>Copyright &copy; Sistem Dashboard. </span>
                 </div>
-            </footer>
-            <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->

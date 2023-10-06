@@ -20,6 +20,11 @@ class WisataController extends Controller
         $wisata = Wisata::all();
         return view('wisata.index', compact('wisata'));
     }
+    public function homeUser()
+    {
+        $wisata = Wisata::all();
+        return view('front.home', compact('wisata'));
+    }
 
     /**
      * Show the form for creating a new resource.

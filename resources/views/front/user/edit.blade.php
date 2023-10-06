@@ -1,4 +1,4 @@
-@extends('front.home')
+@extends('front.Layout')
 @section('title', 'Edit profile')
 @section('content')
     @include('sweetalert::alert')

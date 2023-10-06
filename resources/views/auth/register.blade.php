@@ -29,6 +29,10 @@
                         height="100%">
                 </div>
                 <div class="col-md-7 p-4 align-items-center">
+                    <div class="flex">
+                        <i class="fas fa-long-arrow-alt-left"></i>
+                        <a href="/" style="margin-left:10px;color: black;font-size:14px;">Home</a>
+                    </div>
                     <div class="text-center">
                         <h1 class="h4 text-dark">Daftar <br>
                         </h1>
@@ -41,7 +45,7 @@
                                 <label for="name">{{ __('Nama :') }}</label>
                                 <input id="name" type="text"
                                     class="form-control @error('name') is-invalid @enderror" name="name"
-                                    value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                    value="{{ old('name') }}" required autocomplete="off" autofocus>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -52,7 +56,7 @@
                                 <label for="email">{{ __('E-Mail Address :') }}</label>
                                 <input id="email" type="email"
                                     class="form-control @error('email') is-invalid @enderror" name="email"
-                                    value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                    value="{{ old('email') }}" required autocomplete="off" autofocus>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

@@ -26,6 +26,10 @@
                 <!-- Nested Row within Card Body -->
 
                 <div class="col-md-6 p-4 align-items-center">
+                    <div class="flex">
+                        <i class="fas fa-long-arrow-alt-left"></i>
+                        <a href="/" style="margin-left:10px;color: black;font-size:14px;">Home</a>
+                    </div>
                     <div class="text-center">
                         <h1 class="h4 text-dark">Masuk<br>
                         </h1>

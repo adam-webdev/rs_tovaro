@@ -17,6 +17,21 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     <title>@yield('title', 'Home') </title>
+
+
+
+    {{-- mapbox --}}
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+        type="text/css">
+
+
     <link href="{{ asset('asset/vendor/select2/dist/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link
@@ -69,7 +84,7 @@
             margin-top: 400px;
             font-weight: bold;
             position: absolute;
-            font-family: 'Nunito';
+            font-family: 'Fira Code';
 
         }
 
@@ -91,6 +106,10 @@
         }
 
         @media screen and (max-width:450px) {
+            .navbar {
+                padding: 0 30px;
+            }
+
             .content p {
                 font-size: 18px;
             }
@@ -100,10 +119,34 @@
 
             }
         }
+
+        #buttons {
+            position: absolute;
+            bottom: 0;
+            margin-bottom: 10px;
+            left: 100px;
+            z-index: 1;
+        }
+
+        .marker-custom {
+            border-radius: 50%;
+            cursor: pointer;
+            background-size: cover;
+        }
+
+        .popup-btn:focus {
+            border: none;
+        }
+
+        .popup-btn:hover {
+            transition: .5s;
+
+            background: rgba(1, 1, 1, 0.637) !important
+        }
     </style>
 </head>
 
-<body>
+<body style="overflow-x:hidden">
 
     {{-- menu --}}
 
@@ -150,7 +193,7 @@
                     </li>
                 @else
                     <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                    <li class="nav-item dropdown no-arrow d-sm-none">
+                    {{-- <li class="nav-item dropdown no-arrow d-sm-none">
                         <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-search fa-fw"></i>
@@ -170,7 +213,7 @@
                                 </div>
                             </form>
                         </div>
-                    </li>
+                    </li> --}}
                     <div class="topbar-divider d-none d-sm-block"></div>
 
                     <!-- Nav Item - User Information -->
@@ -186,12 +229,21 @@
                                     src="{{ asset('asset/img/avatar2.png') }}">
                             @endif
                         </a>
+                        {{-- <p>{{ }}</p> --}}
+
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow " aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{{ route('user.profile', [Auth::user()->id]) }}">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                            </a>
+                            @if (Auth::user()->roles->pluck('name')[0] == 'Admin')
+                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Dashboard
+                                </a>
+                            @else
+                                <a class="dropdown-item" href="{{ route('user.profile', [Auth::user()->id]) }}">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                            @endif
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -213,12 +265,34 @@
 
     </div>
 
-    <div class="container text-center" style="height: 1000px">
-        <h1>Selamat Datang di Papua!</h1>
-        <p>Jelajahi keindahan alam Papua yang luar biasa, nikmati petualangan eksotis di hutan hujan, dan temukan
-            keunikan budaya suku-suku asli yang memukau.</p>
+    <div class="container text-center mt-4">
+        <h1 class="text-dark">Selamat datang di Papua!</h1>
+        <p>Berikut titik-titik lokasi tempat wisata</p>
     </div>
-    {{-- logout modal --}}
+
+
+    <div class="row p-4" style="margin-top:20px;margin-bottom:50px">
+        <div class="col-md-12">
+
+            <div id='mymap' style='height: 600px; width:100%'>
+                {{-- <div id="search-container">
+                                <input type="text" id="search-input" placeholder="Cari lokasi">
+                            </div> --}}
+                <div id="buttons">
+                    <button type="button" id="streetButton">
+                        <i class="fas fa-map-marked"></i>
+                    </button>
+                    <button type="button" id="satelliteButton">
+                        <i class="fas fa-globe-asia"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div> {{-- logout modal --}}
+
+
+
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -245,6 +319,7 @@
     </div>
 </body>
 
+{{-- Navbar style animasi --}}
 <script>
     let prevScrollPos = window.pageYOffset;
     console.log(prevScrollPos)
@@ -264,6 +339,165 @@
             document.querySelector(".navbar").style.background = "transparent";
         }
         prevScrollPos = currentScrollPos;
+    }
+</script>
+
+{{--  map --}}
+<script>
+    const token = "{{ config('app.mapbox_api_key') }}"
+
+    mapboxgl.accessToken = token
+    var mymap = new mapboxgl.Map({
+        container: 'mymap',
+        style: 'mapbox://styles/mapbox/streets-v12',
+        center: [136.56555, -4.54357],
+        zoom: 9
+    })
+
+    if ("geolocation" in navigator) {
+        // Mengambil lokasi saat ini
+        navigator.geolocation.getCurrentPosition(function(position) {
+            // Mendapatkan koordinat latitude dan longitude
+            const latitudeMe = position.coords.latitude;
+            const longitudeMe = position.coords.longitude;
+
+            console.log("latitudeMe", latitudeMe)
+            console.log("longitudeMe", longitudeMe)
+
+            // button untuk merubah style map
+            document.getElementById('streetButton').addEventListener('click', function() {
+                mymap.setStyle('mapbox://styles/mapbox/streets-v11');
+            });
+
+            document.getElementById('satelliteButton').addEventListener('click', function() {
+                mymap.setStyle('mapbox://styles/mapbox/satellite-streets-v12');
+
+            });
+            var navigation = new mapboxgl.NavigationControl();
+            mymap.addControl(navigation, 'top-right');
+
+
+            // search box
+            const geocoder = new MapboxGeocoder({
+                accessToken: token,
+                mapboxgl,
+                countries: "id",
+                language: "id"
+            });
+
+
+            mymap.addControl(
+                geocoder, 'top-left'
+            );
+
+            const dataWisata = {!! json_encode($wisata) !!}
+
+            dataWisata.forEach((data) => {
+                console.log(data.banner)
+                // console.log(data.latitude, data.longitude)
+
+                // card popup
+                let cardHtml = `
+                <div class="row m-1 gap-2">
+                    <div class="card p-2">
+                        <span>${data.nama_wisata}</span>
+                        <input type="hidden" id="lat" value="${data.latitude}">
+                        <input type="hidden" id="lng" value="${data.longitude}">
+                        <img width="200px" src="/storage/${data.banner}" alt="${data.nama_wisata}">
+                        <span>Biaya masuk : <span class="badge badge-sm badge-success">${data.harga == 0 ? "Gratis": data.harga}</span></span>
+                        <span>Jam operasional <p>${data.jam_buka} - ${data.jam_tutup}</p></span>
+                        <button id="buttonTujuan" class="btn btn-sm popup-btn" style="background: #000;color:#fff" type="button">Pilih sebagai
+                            tujuan</button>
+                    </div>
+                </div>`
+
+
+                // custom icon marker
+                var customMarker = document.createElement('div')
+                customMarker.className = "marker-custom"
+                customMarker.style.width = '40px'
+                customMarker.style.height = '40px'
+                customMarker.style.backgroundImage = `url('storage/${data.banner}')`
+                // end
+
+                // timika lat 4.5468, lng 136.8837
+                //posisi anda
+                const markerUser = new mapboxgl.Marker({
+                        color: 'green'
+                    }).setLngLat([136.8837, -4.5468])
+                    .addTo(mymap)
+                // popup custom
+                const popup = new mapboxgl.Popup().setHTML(cardHtml)
+
+                // marker lokasi wisata
+                const markerData = new mapboxgl.Marker(customMarker)
+                    .setLngLat([data.longitude, data.latitude])
+                    .setPopup(popup)
+                    .addTo(mymap)
+                // ketika popup dibuka
+                popup.on('open', () => {
+                    const latitudeTujuan = document.getElementById('lat').value
+                    const longitudeTujuan = document.getElementById('lng').value
+                    const buttonTujuan = document.getElementById('buttonTujuan')
+                    // menghapus popup ketika button tujuan diclick
+                    if (buttonTujuan) {
+                        buttonTujuan.addEventListener('click', () => {
+                            //lokasi sesuai device
+                            // const posisiAnda = [longitudeMe, latitudeMe]
+                            const posisiAnda = [136.8837, -4.5468]
+                            const posisiTujuan = [longitudeTujuan, latitudeTujuan]
+                            getRoute(posisiAnda, posisiTujuan)
+                            markerData.getPopup().remove()
+                        })
+                    }
+
+                })
+            })
+
+        });
+    } else {
+        console.log("Geolocation tidak didukung di browser ini.");
+    }
+
+    async function getRoute(start, end) {
+        const requestApi = await fetch(
+            `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?alternatives=true&steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`, {
+                method: 'GET'
+            })
+        const responseJson = await requestApi.json()
+        console.log("response", responseJson)
+        const data = responseJson.routes[0]
+        const route = data.geometry.coordinates
+        const geojson = {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+                type: 'LineString',
+                coordinates: route
+            }
+
+        }
+        if (mymap.getSource('route')) {
+            mymap.getSource('route').setData(geojson)
+        } else {
+            mymap.addLayer({
+                id: "route",
+                type: "line",
+                source: {
+                    type: "geojson",
+                    data: geojson
+                },
+                layout: {
+                    'line-join': 'round',
+                    'line-cap': 'round'
+                },
+                paint: {
+                    'line-color': '#0000a7',
+                    'line-width': 5,
+                    'line-opacity': 0.75
+                }
+            })
+        }
     }
 </script>
 <!-- Bootstrap core JavaScript-->

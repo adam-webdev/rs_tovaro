@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\{DashboardController, UserController, WisataController};
+use App\Models\Wisata;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('front.home');
-});
+Route::get('/', [WisataController::class, 'homeUser']);
+// return view('front.home');
+
+
 
 Auth::routes();
 
