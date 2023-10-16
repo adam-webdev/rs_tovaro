@@ -24,6 +24,11 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('asset/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <!-- Mapbox -->
+
+
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
@@ -32,6 +37,9 @@
         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
         type="text/css">
 
+
+
+    <!-- End Mapbox -->
     @yield('css')
     <style>
         a.nav-link span,
@@ -40,8 +48,6 @@
             color: black;
 
         }
-
-
 
         a.nav-link:hover {
             background: rgb(232, 232, 242);
@@ -115,6 +121,11 @@
                 <a class="nav-link text-white" href="{{ route('wisata.index') }}">
                     <i class="fas fa-globe-asia"></i>
                     <span>Data Wisata</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white" href="{{ route('graph.index') }}">
+                    <i class="fas fa-route"></i>
+                    <span>Data Graph</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="{{ route('user.index') }}">

@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+
 define('INFINITE', pow(2, (20 * 8 - 2) - 1));
 
 /**

@@ -258,7 +258,7 @@
         <div class="container">
 
             <div class="content ">
-                <p>Jelajahi keindahan alam Papua yang luar biasa
+                <p>Jelajahi keindahan alam di kota Mimika Papua Tengah yang luar biasa
                     dan temukan keunikan budaya suku-suku asli yang memukau.</p>
             </div>
         </div>
@@ -266,7 +266,7 @@
     </div>
 
     <div class="container text-center mt-4">
-        <h1 class="text-dark">Selamat datang di Papua!</h1>
+        <h1 class="text-dark">Selamat datang di Kota Mimika Papua Tengah!</h1>
         <p>Berikut titik-titik lokasi tempat wisata</p>
     </div>
 
@@ -354,50 +354,50 @@
         zoom: 9
     })
 
-    if ("geolocation" in navigator) {
-        // Mengambil lokasi saat ini
-        navigator.geolocation.getCurrentPosition(function(position) {
-            // Mendapatkan koordinat latitude dan longitude
-            const latitudeMe = position.coords.latitude;
-            const longitudeMe = position.coords.longitude;
+    // if ("geolocation" in navigator) {
+    //     // Mengambil lokasi saat ini
+    //     navigator.geolocation.getCurrentPosition(function(position) {
+    // Mendapatkan koordinat latitude dan longitude
+    // const latitudeMe = position.coords.latitude;
+    // const longitudeMe = position.coords.longitude;
 
-            console.log("latitudeMe", latitudeMe)
-            console.log("longitudeMe", longitudeMe)
+    // console.log("latitudeMe", latitudeMe)
+    // console.log("longitudeMe", longitudeMe)
 
-            // button untuk merubah style map
-            document.getElementById('streetButton').addEventListener('click', function() {
-                mymap.setStyle('mapbox://styles/mapbox/streets-v11');
-            });
+    // button untuk merubah style map
+    document.getElementById('streetButton').addEventListener('click', function() {
+        mymap.setStyle('mapbox://styles/mapbox/streets-v11');
+    });
 
-            document.getElementById('satelliteButton').addEventListener('click', function() {
-                mymap.setStyle('mapbox://styles/mapbox/satellite-streets-v12');
+    document.getElementById('satelliteButton').addEventListener('click', function() {
+        mymap.setStyle('mapbox://styles/mapbox/satellite-streets-v12');
 
-            });
-            var navigation = new mapboxgl.NavigationControl();
-            mymap.addControl(navigation, 'top-right');
-
-
-            // search box
-            const geocoder = new MapboxGeocoder({
-                accessToken: token,
-                mapboxgl,
-                countries: "id",
-                language: "id"
-            });
+    });
+    var navigation = new mapboxgl.NavigationControl();
+    mymap.addControl(navigation, 'top-right');
 
 
-            mymap.addControl(
-                geocoder, 'top-left'
-            );
+    // search box
+    const geocoder = new MapboxGeocoder({
+        accessToken: token,
+        mapboxgl,
+        countries: "id",
+        language: "id"
+    });
 
-            const dataWisata = {!! json_encode($wisata) !!}
 
-            dataWisata.forEach((data) => {
-                console.log(data.banner)
-                // console.log(data.latitude, data.longitude)
+    mymap.addControl(
+        geocoder, 'top-left'
+    );
 
-                // card popup
-                let cardHtml = `
+    const dataWisata = {!! json_encode($wisata) !!}
+
+    dataWisata.forEach((data) => {
+        console.log(data.banner)
+        // console.log(data.latitude, data.longitude)
+
+        // card popup
+        let cardHtml = `
                 <div class="row m-1 gap-2">
                     <div class="card p-2">
                         <span>${data.nama_wisata}</span>
@@ -412,93 +412,95 @@
                 </div>`
 
 
-                // custom icon marker
-                var customMarker = document.createElement('div')
-                customMarker.className = "marker-custom"
-                customMarker.style.width = '40px'
-                customMarker.style.height = '40px'
-                customMarker.style.backgroundImage = `url('storage/${data.banner}')`
-                // end
+        // custom icon marker
+        var customMarker = document.createElement('div')
+        customMarker.className = "marker-custom"
+        customMarker.style.width = '30px'
+        customMarker.style.height = '30px'
+        customMarker.style.backgroundImage = `url('storage/${data.banner}')`
+        console.log("baground",
+            `url('storage/${data.banner}')`)
+        // end
 
-                // timika lat 4.5468, lng 136.8837
-                //posisi anda
-                const markerUser = new mapboxgl.Marker({
-                        color: 'green'
-                    }).setLngLat([136.8837, -4.5468])
-                    .addTo(mymap)
-                // popup custom
-                const popup = new mapboxgl.Popup().setHTML(cardHtml)
+        // timika lat 4.5468, lng 136.8837
+        //posisi anda
+        const markerUser = new mapboxgl.Marker({
+                color: 'green'
+            }).setLngLat([136.8837, -4.5468])
+            .addTo(mymap)
+        // popup custom
+        const popup = new mapboxgl.Popup().setHTML(cardHtml)
 
-                // marker lokasi wisata
-                const markerData = new mapboxgl.Marker(customMarker)
-                    .setLngLat([data.longitude, data.latitude])
-                    .setPopup(popup)
-                    .addTo(mymap)
-                // ketika popup dibuka
-                popup.on('open', () => {
-                    const latitudeTujuan = document.getElementById('lat').value
-                    const longitudeTujuan = document.getElementById('lng').value
-                    const buttonTujuan = document.getElementById('buttonTujuan')
-                    // menghapus popup ketika button tujuan diclick
-                    if (buttonTujuan) {
-                        buttonTujuan.addEventListener('click', () => {
-                            //lokasi sesuai device
-                            // const posisiAnda = [longitudeMe, latitudeMe]
-                            const posisiAnda = [136.8837, -4.5468]
-                            const posisiTujuan = [longitudeTujuan, latitudeTujuan]
-                            getRoute(posisiAnda, posisiTujuan)
-                            markerData.getPopup().remove()
-                        })
-                    }
-
+        // marker lokasi wisata
+        const markerData = new mapboxgl.Marker(customMarker)
+            .setLngLat([data.longitude, data.latitude])
+            .setPopup(popup)
+            .addTo(mymap)
+        // ketika popup dibuka
+        popup.on('open', () => {
+            const latitudeTujuan = document.getElementById('lat').value
+            const longitudeTujuan = document.getElementById('lng').value
+            const buttonTujuan = document.getElementById('buttonTujuan')
+            // menghapus popup ketika button tujuan diclick
+            if (buttonTujuan) {
+                buttonTujuan.addEventListener('click', () => {
+                    //lokasi sesuai device
+                    // const posisiAnda = [longitudeMe, latitudeMe]
+                    const posisiAnda = [136.8837, -4.5468]
+                    const posisiTujuan = [longitudeTujuan, latitudeTujuan]
+                    getRoute(posisiAnda, posisiTujuan)
+                    markerData.getPopup().remove()
                 })
-            })
-
-        });
-    } else {
-        console.log("Geolocation tidak didukung di browser ini.");
-    }
-
-    async function getRoute(start, end) {
-        const requestApi = await fetch(
-            `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?alternatives=true&steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`, {
-                method: 'GET'
-            })
-        const responseJson = await requestApi.json()
-        console.log("response", responseJson)
-        const data = responseJson.routes[0]
-        const route = data.geometry.coordinates
-        const geojson = {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-                type: 'LineString',
-                coordinates: route
             }
 
-        }
-        if (mymap.getSource('route')) {
-            mymap.getSource('route').setData(geojson)
-        } else {
-            mymap.addLayer({
-                id: "route",
-                type: "line",
-                source: {
-                    type: "geojson",
-                    data: geojson
-                },
-                layout: {
-                    'line-join': 'round',
-                    'line-cap': 'round'
-                },
-                paint: {
-                    'line-color': '#0000a7',
-                    'line-width': 5,
-                    'line-opacity': 0.75
-                }
-            })
-        }
-    }
+        })
+    })
+
+    // });
+    // } else {
+    //     console.log("Geolocation tidak didukung di browser ini.");
+    // }
+
+    // async function getRoute(start, end) {
+    //     const requestApi = await fetch(
+    //         `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?alternatives=true&steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`, {
+    //             method: 'GET'
+    //         })
+    //     const responseJson = await requestApi.json()
+    //     console.log("response", responseJson)
+    //     const data = responseJson.routes[0]
+    //     const route = data.geometry.coordinates
+    //     const geojson = {
+    //         type: 'Feature',
+    //         properties: {},
+    //         geometry: {
+    //             type: 'LineString',
+    //             coordinates: route
+    //         }
+
+    //     }
+    //     if (mymap.getSource('route')) {
+    //         mymap.getSource('route').setData(geojson)
+    //     } else {
+    //         mymap.addLayer({
+    //             id: "route",
+    //             type: "line",
+    //             source: {
+    //                 type: "geojson",
+    //                 data: geojson
+    //             },
+    //             layout: {
+    //                 'line-join': 'round',
+    //                 'line-cap': 'round'
+    //             },
+    //             paint: {
+    //                 'line-color': '#0000a7',
+    //                 'line-width': 5,
+    //                 'line-opacity': 0.75
+    //             }
+    //         })
+    //     }
+    // }
 </script>
 <!-- Bootstrap core JavaScript-->
 <script src="{{ asset('asset/vendor/jquery/jquery.min.js') }}"></script>
