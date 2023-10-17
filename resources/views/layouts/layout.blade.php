@@ -54,6 +54,12 @@
 
         }
 
+        ul li a.active {
+            background: rgb(232, 232, 242);
+            border-radius: 8px;
+
+        }
+
         a.nav-link:hover {
             background: rgb(232, 232, 242);
             border-radius: 8px;
@@ -123,17 +129,26 @@
             </li> --}}
             {{-- @role('Admin') --}}
             <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('wisata.index') }}">
+                <a class="nav-link text-white {{ request()->is('admin/wisata') ? 'active' : '' }}"
+                    href="{{ route('wisata.index') }}">
                     <i class="fas fa-globe-asia"></i>
                     <span>Data Wisata</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('graph.index') }}">
-                    <i class="fas fa-route"></i>
+                <a class="nav-link text-white {{ request()->is('admin/graph') ? 'active' : '' }}"
+                    href="{{ route('graph.index') }}">
+                    <i class="fas fa-map-marked-alt"></i>
                     <span>Data Graph</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('user.index') }}">
+                <a class="nav-link text-white {{ request()->is('admin/rute') ? 'active' : '' }}"
+                    href="{{ route('rute.index') }}">
+                    <i class="fas fa-route"></i>
+                    <span>Perhitungan Rute </span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('admin/user') ? 'active' : '' }}"
+                    href="{{ route('user.index') }}">
                     <i class="fas fa-user-alt "></i>
                     <span>User</span></a>
             </li>
@@ -221,9 +236,9 @@
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <!-- Nav Item - 2`3 Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="425"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
@@ -252,7 +267,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span
                                     class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img class="img-profile rounded-circle" src="storage/{{ Auth::user()->foto }}">
+                                <img class="img-profile rounded-circle" src="/storage/{{ Auth::user()->foto }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

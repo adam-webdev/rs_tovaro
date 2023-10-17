@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{DashboardController, GraphController, TestController, UserController, WisataController};
+use App\Http\Controllers\{AlgoritmaController, DashboardController, GraphController, TestController, UserController, WisataController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,18 +28,23 @@ Route::get('/edit-profile/{id}', [UserController::class, "editprofile"])->name('
 Route::put('/update-profile/{id}', [UserController::class, "updateprofile"])->name('update.profile');
 // Route::get('/user/hapus/{id}', [UserController::class, "delete"]);
 
-Route::middleware(['auth', 'redirectBasedOnRole'])->group(function () {
+// hanya admin yang dapat akses route ini
+Route::middleware(['auth', 'redirectBasedOnRole'])->prefix('/admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, "index"])->name('dashboard');
-    // hanya admin yang dapat akses route ini
     Route::resource('/user', UserController::class);
     Route::get('/user/hapus/{id}', [UserController::class, "delete"]);
 
     // wisata
     Route::resource('/wisata', WisataController::class);
     Route::get('/wisata/hapus/{id}', [WisataController::class, "delete"]);
+
     // graph
     Route::resource('/graph', GraphController::class);
     Route::get('/graph/hapus/{id}', [GraphController::class, "delete"]);
+
+    // rute
+    Route::resource('/rute', AlgoritmaController::class);
+    Route::get('/rute/hapus/{id}', [AlgoritmaController::class, "delete"]);
 });
 
 

@@ -21,9 +21,9 @@ class Dijkstra
     $next = array();
 
     foreach ($this->nodes as $node) {
-      array_push($ver, $node[0], $node[1]);
-      $next[$node[0]][] = array("tujuan" => $node[1], "cost" => $node[2]);
-      $next[$node[1]][] = array("tujuan" => $node[0], "cost" => $node[2]);
+      array_push($ver, $node["awal"], $node["tujuan"]);
+      $next[$node["awal"]][] = array("tujuan" => $node["tujuan"], "cost" => $node["jarak"]);
+      $next[$node["tujuan"]][] = array("tujuan" => $node["awal"], "cost" => $node["jarak"]);
     }
 
     // echo '<pre>';
@@ -78,7 +78,7 @@ class Dijkstra
     array_unshift($path, $this->awal);
 
     $result['path'] = $path;
-    $result['cost'] = (int)$min;
+    $result['cost'] = $min;
 
     return $result;
   }
