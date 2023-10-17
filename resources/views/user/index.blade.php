@@ -15,65 +15,76 @@
         @endrole
     </div>
 
+    <div class="card">
 
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr align="center">
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>No Hp</th>
-                            <th>Nik</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Email</th>
-                            <th>Roles</th>
-                            <th>Foto</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($user as $row)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $row->name }}</td>
-                                <td>{{ $row->no_hp }}</td>
-                                <td>{{ $row->nik }}</td>
-                                <td>{{ $row->jenis_kelamin }}</td>
-                                <td>{{ $row->email }}</td>
-                                <td>
-                                    {{ $row->roles->pluck('name') }}
-                                </td>
-                                <td> <img src="storage/{{ $row->foto }}" width="200px" alt="profile"> </td>
-                                <td align="center" width="15%">
-                                    <div class="dropdown show">
-                                        <a class="btn bg-white dropdown-toggle" href="#" role="button"
-                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Actions
-                                        </a>
-
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item text-primary font-weight-bold"
-                                                href="{{ route('user.show', [$row->id]) }}">
-                                                Detail</a>
-                                            <a class="dropdown-item text-secondary font-weight-bold"
-                                                href="{{ route('user.edit', [$row->id]) }}">Edit </a>
-
-                                            <a href="/user/hapus/{{ $row->id }}" data-toggle="tooltip" title="Hapus"
-                                                onclick="return confirm('Yakin Ingin menghapus data?')"
-                                                class=" dropdown-item text-danger font-weight-bold">
-                                                Hapus
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </td>
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr align="center">
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>No Hp</th>
+                                <th>Nik</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Email</th>
+                                <th>Roles</th>
+                                <th>Foto</th>
+                                <th>Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($user as $row)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $row->name }}</td>
+                                    <td>{{ $row->no_hp }}</td>
+                                    <td>{{ $row->nik }}</td>
+                                    <td>{{ $row->jenis_kelamin }}</td>
+                                    <td>{{ $row->email }}</td>
+                                    <td>
+                                        @if ($row->roles->pluck('name')[0] == 'Admin')
+                                            <span style="background: green;color:white;padding:4px 8px; border-radius:4px;">
+                                                {{ $row->roles->pluck('name')[0] }}
+                                            </span>
+                                        @else
+                                            <span
+                                                style="background: rgb(1, 1, 169);color:white;padding:2px 4px; border-radius:4px;">
+                                                {{ $row->roles->pluck('name')[0] }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td> <img src="storage/{{ $row->foto }}" width="200px" alt="profile"> </td>
+                                    <td align="center" width="15%">
+                                        <div class="dropdown show">
+                                            <a style="background: rgb(240, 240, 240)" class="btn  dropdown-toggle"
+                                                href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                Actions
+                                            </a>
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item text-primary font-weight-bold"
+                                                    href="{{ route('user.show', [$row->id]) }}">
+                                                    Detail</a>
+                                                <a class="dropdown-item text-secondary font-weight-bold"
+                                                    href="{{ route('user.edit', [$row->id]) }}">Edit </a>
+
+                                                <a href="/user/hapus/{{ $row->id }}" data-toggle="tooltip"
+                                                    title="Hapus" onclick="return confirm('Yakin Ingin menghapus data?')"
+                                                    class=" dropdown-item text-danger font-weight-bold">
+                                                    Hapus
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

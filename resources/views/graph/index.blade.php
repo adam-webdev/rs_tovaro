@@ -15,56 +15,58 @@
 
     </div>
 
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table  table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr align="center">
-                            <th>No</th>
-                            <th>Awal </th>
-                            <th>Tujuan</th>
-                            <th>Jarak </th>
-                            <th>Waktu</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($graph as $t)
+    <div class="card">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table  table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
                             <tr align="center">
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $t->awal }}</td>
-                                <td>{{ $t->tujuan }}</td>
-                                <td>{{ $t->jarak }}</td>
-                                <td>{{ $t->waktu }}</td>
-
-                                <td align="center" width="15%">
-                                    <div class="dropdown show">
-                                        <a class="btn bg-white dropdown-toggle" href="#" role="button"
-                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            Actions
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item text-primary font-weight-bold"
-                                                href="{{ route('graph.show', [$t->id]) }}">
-                                                Detail</a>
-                                            <a class="dropdown-item text-secondary font-weight-bold"
-                                                href="{{ route('graph.edit', [$t->id]) }}">Edit </a>
-
-                                            <a href="/graph/hapus/{{ $t->id }}" data-toggle="tooltip" title="Hapus"
-                                                onclick="return confirm('Yakin Ingin menghapus data?')"
-                                                class=" dropdown-item text-danger font-weight-bold">
-                                                Hapus
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </td>
+                                <th>No</th>
+                                <th>Awal </th>
+                                <th>Tujuan</th>
+                                <th>Jarak </th>
+                                <th>Waktu</th>
+                                <th>Aksi</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($graph as $t)
+                                <tr align="center">
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $t->awal }}</td>
+                                    <td>{{ $t->tujuan }}</td>
+                                    <td>{{ $t->jarak }} km</td>
+                                    <td>{{ $t->waktu }} jam</td>
+
+                                    <td align="center" width="15%">
+                                        <div class="dropdown show">
+                                            <a style="background: rgb(240, 240, 240)" class="btn  dropdown-toggle"
+                                                href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                Actions
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item text-primary font-weight-bold"
+                                                    href="{{ route('graph.show', [$t->id]) }}">
+                                                    Detail</a>
+                                                <a class="dropdown-item text-secondary font-weight-bold"
+                                                    href="{{ route('graph.edit', [$t->id]) }}">Edit </a>
+
+                                                <a href="/graph/hapus/{{ $t->id }}" data-toggle="tooltip"
+                                                    title="Hapus" onclick="return confirm('Yakin Ingin menghapus data?')"
+                                                    class=" dropdown-item text-danger font-weight-bold">
+                                                    Hapus
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

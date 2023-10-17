@@ -201,7 +201,7 @@
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand  topbar bg-white static-top shadow"
-                    style="margin:10px 20px;border-radius:14px;background-color:rgb(255, 255, 255)!important;">
+                    style="margin:10px 20px;border-radius:8px;background-color:rgb(255, 255, 255)!important;">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-linkrounded-circle mr-3">
@@ -252,7 +252,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span
                                     class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img class="img-profile rounded-circle" src="{{ asset('asset/img/avatar2.png') }}">
+                                <img class="img-profile rounded-circle" src="storage/{{ Auth::user()->foto }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -290,7 +290,7 @@
             <footer class="sticky-footer">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Create By: User<br>Copyright &copy; Sistem Dashboard. </span>
+                        <span>Dibuat oleh Wulan<br> &copy; Sistem Wisata Mimika, Papua Tengah. </span>
                     </div>
                 </div>
             </footer>

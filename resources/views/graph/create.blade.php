@@ -49,7 +49,7 @@
 @section('content')
     @include('sweetalert::alert')
 
-    <form action="{{ route('wisata.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('graph.store') }}" method="POST">
         @csrf
         <div class="card  p-3 ">
             <fieldset>
