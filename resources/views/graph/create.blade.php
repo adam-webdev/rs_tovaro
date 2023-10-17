@@ -72,9 +72,14 @@
                             @error('tujuan')
                                 <div class="alert alert-danger mt-2">{{ $message }}</div>
                             @enderror
+
+                            <input type="hidden" id="setLatAwal">
+                            <input type="hidden" id="setLngAwal">
+                            <input type="hidden" id="setLatTujuan">
+                            <input type="hidden" id="setLngTujuan">
                         </div>
                         <div class="form-group">
-                            <label for="jarak">Jarak :</label>
+                            <label for="jarak">Jarak (km):</label>
                             <input type="text" name="jarak" class="form-control" id="jarak" required readonly
                                 class="@error('jarak') is-invalid @enderror" />
                             @error('jarak')
@@ -82,7 +87,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="waktu">Waktu :</label>
+                            <label for="waktu">Waktu (jam):</label>
                             <input type="text" name="waktu" class="form-control" id="waktu" required readonly
                                 class="@error('waktu') is-invalid @enderror" />
                             @error('waktu')
@@ -157,16 +162,15 @@
 
         console.log(dataWisata)
         dataWisata.forEach((data) => {
-            console.log(data.banner)
-            console.log(data.latitude, data.longitude)
+            // console.log(data.banner)
+            // console.log(data.latitude, data.longitude)
 
             // card popup
             let cardHtml = `
                 <div class="row m-1 gap-2">
                     <div class="card p-2">
                         <span class="text-dark font-weight-bold">${data.nama_wisata}</span>
-                        <input type="hidden" id="awalW" value="${data.nama_wisata}">
-                        <input type="hidden" id="tujuanW" value="${data.nama_wisata}">
+                        <input type="hidden" id="namaWisata" value="${data.nama_wisata}">
                         <input type="hidden" id="lat" value="${data.latitude}">
                         <input type="hidden" id="lng" value="${data.longitude}">
                         <img width="200px" src="/storage/${data.banner}" alt="${data.nama_wisata}">
@@ -186,9 +190,9 @@
             customMarker.style.height = '40px'
             // customMarker.style.backgroundImage = `url('storage/${data.banner}')`
             // end
-            console.log(
-                "Background", `url('storage/${data.banner}')`
-            )
+            // console.log(
+            //     "Background", `url('storage/${data.banner}')`
+            // )
             // timika lat 4.5468, lng 136.8837
 
             // popup custom
@@ -208,74 +212,109 @@
             popup.on('open', () => {
                 const latitudeW = document.getElementById('lat').value
                 const longitudeW = document.getElementById('lng').value
-                const wisataAwal = document.getElementById('awalW').value
-                const wisataTujuan = document.getElementById('tujuanW').value
+
+                const jarak = document.getElementById('jarak')
+                const waktu = document.getElementById('waktu')
+
+                const namaWisata = document.getElementById('namaWisata').value
+
                 const buttonAwal = document.getElementById('buttonAwal')
                 const buttonTujuan = document.getElementById('buttonTujuan')
 
-                const awal = document.getElementById('awal')
-                const tujuan = document.getElementById('tujuan')
+                const namaWistaAwal = document.getElementById('awal')
+                const namaWistaTujuan = document.getElementById('tujuan')
+
+                // kirim value
+                const setLatTujuan = document.getElementById('setLatTujuan')
+                const setLngTujuan = document.getElementById('setLngTujuan')
+                const setLatAwal = document.getElementById('setLatAwal')
+                const setLngAwal = document.getElementById('setLngAwal')
 
                 let posisiAwal;
+                let posisiTujuan;
+
+
 
                 // menghapus popup ketika button tujuan diclick
-                if (buttonAwal && buttonTujuan) {
-                    buttonAwal.addEventListener('click', () => {
+                buttonAwal.addEventListener('click', () => {
+                    setLatAwal.value = latitudeW
+                    setLngAwal.value = longitudeW
+                    // console.log("lokasi", latitudeW, longitudeW)
+                    namaWistaAwal.value = namaWisata
+                    if (namaWistaAwal.value == namaWistaTujuan.value) {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Posisi awal dan tujuan tidak boleh sama!',
+                            text: 'Terjadi Kesalahan!',
+                        });
+                        namaWistaAwal.value = ""
+                    }
+                    markerWisata.getPopup().remove()
+                })
 
-                        //lokasi sesuai device
-                        // const posisiAnda = [longitudeMe, latitudeMe]
-                        awal.value = wisataAwal
-                        posisiAwal = [latitudeW, longitudeW]
-                        // getRoute(posisiAnda, posisiTujuan)
-                        markerWisata.getPopup().remove()
-                    })
-                    buttonTujuan.addEventListener('click', () => {
-                        //lokasi sesuai device
+                buttonTujuan.addEventListener('click', () => {
+                    setLatTujuan.value = latitudeW
+                    setLngTujuan.value = longitudeW
+                    namaWistaTujuan.value = namaWisata
+                    if (namaWistaAwal.value == namaWistaTujuan.value) {
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Posisi awal dan tujuan tidak boleh sama!',
+                            text: 'Terjadi Kesalahan!',
+                        });
+                        namaWistaTujuan.value = ""
+                    }
+                    posisiAwal = [setLatAwal.value, setLngAwal.value]
+                    posisiTujuan = [setLatTujuan.value, setLngTujuan.value]
+                    if (posisiAwal.length > 0 && posisiTujuan.length > 0) {
+                        getRoute(posisiAwal, posisiTujuan)
 
-                        // const posisiAnda = [longitudeMe, latitudeMe]
-                        const posisiTujuan = [latitudeW, longitudeW]
-                        tujuan.value = wisataTujuan
-
-                        if (awal.value == tujuan.value) {
-                            alert("Posisi awal dan tujuan harus berbeda!")
-                            tujuan.value = ""
-                        }
-
-                        if (posisiAwal && posisiTujuan) {
-                            console.log("awal", posisiAwal)
-                            console.log("tujuan", posisiTujuan)
-                            // getRoute(posisiAwal, posisiTujuan)
-                        }
-                        markerWisata.getPopup().remove()
-                    })
-                }
+                    }
+                    markerWisata.getPopup().remove()
+                })
 
             })
         })
 
-        // });
-        // } else {
-        //     console.log("Geolocation tidak didukung di browser ini.");
-        // }
+        async function getRoute(posisiAwal, posisiTujuan) {
+            console.log("posisiAwal Route", posisiAwal)
+            console.log("posisiTujuan Route", posisiTujuan)
+            const requestApi = await fetch(
+                `https://api.mapbox.com/directions/v5/mapbox/walking/${posisiAwal[1]},${posisiAwal[0]};${posisiTujuan[1]},${posisiTujuan[0]}?alternatives=true&steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`, {
+                    method: 'GET'
+                })
+            const responseJson = await requestApi.json()
+            if (responseJson.code == "NoRoute") {
+                document.getElementById('awal').value = ""
+                document.getElementById('tujuan').value = ""
+                return Swal.fire({
+                    type: 'error',
+                    title: 'Route tidak ditemukan',
+                    text: 'Silahkan pilih lokasi yang lain!',
+                });
 
-        // async function getRoute(start, end) {
-        //     const requestApi = await fetch(
-        //         `https://api.mapbox.com/directions/v5/mapbox/walking/${start[0]},${start[1]};${end[0]},${end[1]}?alternatives=true&steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`, {
-        //             method: 'GET'
-        //         })
-        //     const responseJson = await requestApi.json()
-        //     console.log("response", responseJson)
-        //     const data = responseJson.routes[0]
-        //     const route = data.geometry.coordinates
-        // const geojson = {
-        //     type: 'Feature',
-        //     properties: {},
-        //     geometry: {
-        //         type: 'LineString',
-        //         coordinates: route
-        //     }
+            }
+            console.log("response route", responseJson)
+            const data = responseJson.routes[0]
+            const jarakResult = data.distance / 1000
+            // send value to input jarak
+            jarak.value = jarakResult.toFixed(1)
+            // send value to input waktu
+            const waktuResult = data.duration / 3600
+            waktu.value = waktuResult.toFixed(1)
+            console.log("jarak ", jarakResult, "km")
+            console.log("waktu ", waktuResult, "jam")
+            const route = data.geometry.coordinates
+            const geojson = {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                    type: 'LineString',
+                    coordinates: route
+                }
 
-        // }
+            }
+        }
         // if (mymap.getSource('route')) {
         //     mymap.getSource('route').setData(geojson)
         // } else {

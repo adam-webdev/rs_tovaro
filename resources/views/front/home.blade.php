@@ -132,6 +132,7 @@
             border-radius: 50%;
             cursor: pointer;
             background-size: cover;
+            border: 1px solid rgb(239, 98, 16);
         }
 
         .popup-btn:focus {
