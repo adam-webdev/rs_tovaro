@@ -94,4 +94,14 @@ class TestController extends Controller
             printf("%s ", $nodenames[$value]);
         }
     }
+
+    // for ($i = 0; $i < $numNodes; $i++) {
+    //     for ($j = 0; $j < $numNodes; $j++) {
+    //         echo $graphmatrice[$i][$j] . " ";
+    //     }
+    //     echo "\n";
+    //     echo '<br>';
+    // }
+    // ddd($nodeNames);
+    // $nodenames = array("a", "b", "c", "d", "e", "f");
 }

@@ -3,7 +3,7 @@
 namespace App\Http;
 
 
-define('INFINITE', pow(2, (20 * 8 - 2) - 1));
+define('INFINITE', PHP_INT_MAX);
 
 /**
  * The Floyd-Warshall algorithm is a shortest path algorithm for graphs.
@@ -85,6 +85,7 @@ class FloydWarshall
     }
   }
 
+  // mencari path lokasi dan tujuan
   private function __getPath(int $i, int $j): void
   {
     if ($i != $j) {
@@ -92,7 +93,7 @@ class FloydWarshall
     }
     array_push($this->__temp, $j);
   }
-
+  // menampilkan path jalur
   public function getPath($i, $j): array
   {
     $this->__temp = array();
@@ -100,21 +101,25 @@ class FloydWarshall
     return $this->__temp;
   }
 
+  // memunculkan nama node
   public function getNodeNames(): array
   {
     return $this->__nodenames;
   }
 
+  // memunculkan jumlah node
   public function getNodes(): int
   {
     return $this->__nodes;
   }
 
+  // menampilkan jarak
   public function getDistances(): array
   {
     return $this->__distances;
   }
 
+  // menampilkan predecessors rute sebelumnya
   public function getPredecessors(): array
   {
     return $this->__predecessor;
