@@ -7,7 +7,13 @@
         <!-- Button trigger modal -->
 
     </div>
-    {{-- {{ ddd($hasilPerhitungan['path']) }} --}}
+    @php
+        $totalJarakDijkstra = $path[0];
+        $pathDijkstra = $path[1];
+        $countPathDijkstra = count($path[1]);
+        // ddd($countPathDijkstra);
+    @endphp
+
 
     <h3>Floydwarshall.</h3>
     <div class="card p-4">
@@ -76,23 +82,23 @@
 
 
             <hr />
-            <div class="row pl-3">
+        </div>
+        <div class="row pl-2">
 
-                @php
-                    $path = $floydwarshall->getPath($indexAwal, $indexTujuan);
-                    $distances = $floydwarshall->getDistances();
+            @php
+                $path = $floydwarshall->getPath($indexAwal, $indexTujuan);
+                $distances = $floydwarshall->getDistances();
 
-                    echo '<br>';
-                    $countPath = count($path);
-                    foreach ($path as $key => $value) {
-                        echo '<p class="text-bold text-dark font-weight-bold">' . $nodeNames[$value];
-                        if ($key < $countPath - 1) {
-                            echo ' &rarr; ';
-                        }
-                        echo '</p>';
+                echo '<br>';
+                $countPath = count($path);
+                foreach ($path as $key => $value) {
+                    echo '<p class="text-bold text-dark font-weight-bold">' . $nodeNames[$value];
+                    if ($key < $countPath - 1) {
+                        echo ' &rarr; ';
                     }
-                @endphp
-            </div>
+                    echo '</p>';
+                }
+            @endphp
         </div>
         <div class="row pl-2">
             {{-- @php
@@ -118,10 +124,11 @@
         <div class="row pl-3">
 
             @php
-                $count = count($hasilPerhitungan['path']);
-                foreach ($hasilPerhitungan['path'] as $key => $value) {
+                // {{-- {{ ddd(count($path[1])) }} --}}
+
+                foreach ($pathDijkstra as $key => $value) {
                     echo '<p class="text-bold text-dark font-weight-bold">' . $value;
-                    if ($key < $count - 1) {
+                    if ($key < $countPathDijkstra - 1) {
                         echo ' &rarr; ';
                     }
                     echo '</p>';
@@ -130,9 +137,10 @@
 
         </div>
         <div class="row pl-3">
-            <p>Jarak tempuh : <span class="text-dark font-weight-bold">{{ $hasilPerhitungan['cost'] }} km</span> </p>
+            <p>Jarak tempuh : <span class="text-dark font-weight-bold">{{ $totalJarakDijkstra }} km</span> </p>
         </div>
     </div>
+
 @endsection
 @if (count($errors) > 0)
     @section('scripts')

@@ -65,13 +65,6 @@ class AlgoritmaController extends Controller
         $indexTujuan = array_search($tujuan, $nodeNames);
         $floydwarshall = new FloydWarshall($graphmatrice, $nodeNames);
 
-
-
-
-        // Hasil akhir adalah matriks jarak terpendek antara semua kota
-
-
-
         // dijkstra
         $g = new Dijkstra2();
         foreach ($dataGraph as $data) {
@@ -80,25 +73,10 @@ class AlgoritmaController extends Controller
             $weight = $data['jarak'];
             $g->addedge($source, $destination, $weight);
         }
-
         list($distances, $prev) = $g->paths_from($awal);
-
         $path = $g->paths_to($prev, $tujuan, $distances);
-        // ddd($dataGraph);
-        // $dijkstra = new Dijkstra($dataWisata, "jakarta", "purwakarta");
-        // $dijkstra = new Dijkstra($dataGraph, $request->awal, $request->tujuan);
-        // $hasilPerhitungan = $dijkstra->call_dijkstra();
-        // ddd($hasilPerhitungan);
-
-
-        // echo "path yang harus dilewati : " . implode(", ", $hasilPerhitungan['path']) . "\n";
-        // echo '<br>';
-        // echo "total cost : ";
-        // echo (int)$hasilPerhitungan['cost'];
 
         Alert::success('Selesai', 'Rute tercepat berhasil ditemukan');
-        return view('rute.hasil', compact('floydwarshall', 'nodeNames', 'numNodes', 'graphmatrice', 'dataGraph', 'indexAwal', 'indexTujuan',  'awal', 'tujuan', 'hasilPerhitungan'));
-        // Alert::error('Gagal', 'Posisi dan tujuan harus diisi. silahkan pilih lokasi terlebih dahulu');
-        // return redirect()->route('rute.index');
+        return view('rute.hasil', compact('floydwarshall', 'nodeNames', 'numNodes', 'graphmatrice', 'dataGraph', 'indexAwal', 'indexTujuan',  'awal', 'tujuan', 'path'));
     }
 }

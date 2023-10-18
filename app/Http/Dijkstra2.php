@@ -83,29 +83,31 @@ class Dijkstra2
   public function paths_to($node_dsts, $tonode, $dist)
   {
     // unwind the previous nodes for the specific destination node
-    ddd($dist);
+    // ddd($dist);
 
     $current = $tonode;
     $path = array();
+    $totalJarak = array();
 
     if (isset($node_dsts[$current])) { // only add if there is a path to node
       array_push($path, $tonode);
     }
     while (isset($node_dsts[$current])) {
       $nextnode = $node_dsts[$current];
+      $nexttotal = $dist[$current];
 
       array_push($path, $nextnode);
-
+      array_push($totalJarak, $nexttotal);
       $current = $nextnode;
     }
 
-    return array_reverse($path);
+    return [$totalJarak[0], array_reverse($path)];
   }
 
   public function getpath($from, $to)
   {
     list($distances, $prev) = $this->paths_from($from);
-    return $this->paths_to($prev, $to);
+    return $this->paths_to($prev, $to, $distances);
   }
 }
 
