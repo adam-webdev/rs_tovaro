@@ -31,13 +31,13 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Detail Data Wisata </h1>
         <!-- Button trigger modal -->
-        @hasanyrole('Admin|User')
+        @role('Admin')
             <a href="{{ route('wisata.edit', [$wisata->id]) }}" data-toggle="tooltip" title="Edit"
                 class="d-none  d-sm-inline-block btn btn-primary shadow-sm">
                 <i class="fas fa-edit text-white-50"></i>
                 {{-- <i class="fa-solid fa-pen-to-square"></i> --}}
             </a>
-        @endhasanyrole
+        @endrole
 
     </div>
 

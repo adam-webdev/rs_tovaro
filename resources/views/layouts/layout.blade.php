@@ -79,9 +79,11 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand text-dark font-weight-bold d-flex align-items-center justify-content-center"
                 href="/" style="margin-top:20px">
-                {{-- <div class="sidebar-brand-icon ">
-                    <img src="{{ asset('asset/img/bali.jpg') }}" width="120" style="border:solid 1px black ">
-                </div> --}}
+                <div class="sidebar-brand-icon ">
+                    {{-- <img src="{{ asset('asset/img/bali.jpg') }}" width="120" style="border:solid 1px black "> --}}
+                    <i class="fa fa-home"></i>
+                </div>
+
                 Wisata
             </a>
 
@@ -127,18 +129,27 @@
                     </div>
                 </div>
             </li> --}}
-            {{-- @role('Admin') --}}
+            @role('Admin')
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('admin/user') ? 'active' : '' }}"
+                        href="{{ route('user.index') }}">
+                        <i class="fas fa-user-alt "></i>
+                        <span>User</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('admin/graph') ? 'active' : '' }}"
+                        href="{{ route('graph.index') }}">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Data Graph</span></a>
+                </li>
+            @endrole
             <li class="nav-item">
+
                 <a class="nav-link text-white {{ request()->is('admin/wisata') ? 'active' : '' }}"
                     href="{{ route('wisata.index') }}">
                     <i class="fas fa-globe-asia"></i>
                     <span>Data Wisata</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('admin/graph') ? 'active' : '' }}"
-                    href="{{ route('graph.index') }}">
-                    <i class="fas fa-map-marked-alt"></i>
-                    <span>Data Graph</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white {{ request()->is('admin/rute') ? 'active' : '' }}"
@@ -146,12 +157,7 @@
                     <i class="fas fa-route"></i>
                     <span>Perhitungan Rute </span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('admin/user') ? 'active' : '' }}"
-                    href="{{ route('user.index') }}">
-                    <i class="fas fa-user-alt "></i>
-                    <span>User</span></a>
-            </li>
+
             {{--
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ route('seksi.index') }}">

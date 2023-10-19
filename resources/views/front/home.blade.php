@@ -46,7 +46,7 @@
             position: relative;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
+            /* overflow: hidden; */
 
         }
 
@@ -74,6 +74,7 @@
             position: fixed;
             padding: 0 100px;
             transition: top 0.3s;
+            z-index: 99999;
         }
 
         .content {
@@ -141,8 +142,19 @@
 
         .popup-btn:hover {
             transition: .5s;
-
             background: rgba(1, 1, 1, 0.637) !important
+        }
+
+        .icon i {
+            font-size: 34px;
+        }
+
+        .div {
+            display: flex;
+            flex-direction: column;
+            row-gap: 8px;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -167,16 +179,6 @@
 
         <nav class="navbar navbar-expand topbar" style="background-color: transparent!important; ">
 
-            <!-- Sidebar Toggle (Topbar) -->
-            {{-- <button id="sidebarToggleTop" class="btn btn-linkrounded-circle mr-3">
-            <i class="fas fa-bars"></i>
-        </button> --}}
-
-            <!-- Topbar Search -->
-            {{-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-            </div>
-          </form> --}}
             <div class="input-group-append">
                 <a href="/" style="text-decoration: none">
                     <h4 class="logo text-white font-weight-bold">Wisata Papua </h4>
@@ -234,17 +236,17 @@
 
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow " aria-labelledby="userDropdown">
-                            @if (Auth::user()->roles->pluck('name')[0] == 'Admin')
-                                <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Dashboard
-                                </a>
-                            @else
+                            {{-- @if (Auth::user()->roles->pluck('name')[0] == 'Admin') --}}
+                            <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Dashboard
+                            </a>
+                            {{-- @else
                                 <a class="dropdown-item" href="{{ route('user.profile', [Auth::user()->id]) }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                            @endif
+                            @endif --}}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -267,7 +269,7 @@
     </div>
 
     <div class="container text-center mt-4">
-        <h1 class="text-dark">Selamat datang di Kota Mimika Papua Tengah!</h1>
+        <h3 class="text-dark" style="color:black">Selamat datang di Kota Mimika Papua Tengah.</h3>
         <p>Berikut titik-titik lokasi tempat wisata</p>
     </div>
 
@@ -292,7 +294,105 @@
 
     </div> {{-- logout modal --}}
 
+    <div class="row p-4"
+        style="background: black;color:#fff;padding-top:40px!important;padding-bottom:40px!important;">
+        <div class="col-md-3">
+            <div class="div">
+                <div class="icon">
+                    <i class="fas fa-th"></i>
+                </div>
+                <p>Keanekaragaman Budaya </p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="div">
+                <div class="icon">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <p>Keindahan Alam</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="div">
+                <div class="icon">
+                    <i class="fas fa-language"></i>
+                </div>
+                <p>Bahasa dan Budaya</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="div">
+                <div class="icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <p>Aneka Kuliner khas</p>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4 p-4 align-items-center justify-content-center">
+        <h4 style="color:black; font-weight:bold;border-bottom:6px solid black;border-radius:4px">Wisata Yang Tersedia
+        </h4>
+    </div>
+    <div class="row p-4 gap-2">
+        @foreach ($wisata as $w)
+            <div class="col-md-3">
+                <div class="card m-2">
+                    <div width="100%" height="250px">
+                        <img width="100%" height="250px" style="object-fit: cover"
+                            src="/storage/{{ $w->banner }}" alt="{{ $w->nama_wisata }}">
+                    </div>
+                    <div class="card-body p-2">
+                        <span class="text-dark font-weight-bold">{{ $w->nama_wisata }}</span><br>
+                        <span>Biaya masuk : <span class="badge badge-sm badge-success">
+                                @if ($w->harga == 0)
+                                    {{ 'Gratis' }}
+                                @else
+                                    @currency($w->harga)
+                                @endif
+                            </span></span><br>
+                        <span>Jam operasional <p>{{ $w->jam_buka }} - {{ $w->jam_tutup }}</p></span>
+                    </div>
+                    <a href="{{ !Auth::user() ? '#' : route('wisata.show', [$w->id]) }}" width="100%"
+                        class="p-2 btn btn-sm popup-btn" style="background: #000;color:#fff">Lihat detail</a>
+                </div>
+            </div>
+        @endforeach
+    </div>
 
+    <div class="row flex-column mt-4 p-4 align-items-center justify-content-center"
+        style="background: black;color:#fff;padding-top:40px!important;padding-bottom:40px!important;">
+        <h6>Wisata Mimika, Papua Tengah </h6>
+        <h6> Indonesia 🇮🇩
+            <span class="indonesia">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40"
+                    zoomAndPan="magnify" viewBox="0 0 30 30.000001" height="40"
+                    preserveAspectRatio="xMidYMid meet" version="1.0">
+                    <defs>
+                        <clipPath id="id1">
+                            <path
+                                d="M 2.128906 5.222656 L 27.53125 5.222656 L 27.53125 15 L 2.128906 15 Z M 2.128906 5.222656 "
+                                clip-rule="nonzero" />
+                        </clipPath>
+                        <clipPath id="id2">
+                            <path
+                                d="M 2.128906 14 L 27.53125 14 L 27.53125 23.371094 L 2.128906 23.371094 Z M 2.128906 14 "
+                                clip-rule="nonzero" />
+                        </clipPath>
+                    </defs>
+                    <g clip-path="url(#id1)">
+                        <path fill="rgb(86.268616%, 12.159729%, 14.898682%)"
+                            d="M 24.703125 5.222656 L 4.957031 5.222656 C 3.398438 5.222656 2.132812 6.472656 2.132812 8.015625 L 2.132812 14.296875 L 27.523438 14.296875 L 27.523438 8.015625 C 27.523438 6.472656 26.261719 5.222656 24.703125 5.222656 Z M 24.703125 5.222656 "
+                            fill-opacity="1" fill-rule="nonzero" />
+                    </g>
+                    <g clip-path="url(#id2)">
+                        <path fill="rgb(93.328857%, 93.328857%, 93.328857%)"
+                            d="M 27.523438 20.578125 C 27.523438 22.121094 26.261719 23.371094 24.703125 23.371094 L 4.957031 23.371094 C 3.398438 23.371094 2.132812 22.121094 2.132812 20.578125 L 2.132812 14.296875 L 27.523438 14.296875 Z M 27.523438 20.578125 "
+                            fill-opacity="1" fill-rule="nonzero" />
+                    </g>
+                </svg>
+            </span>
+        </h6>
+    </div>
 
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -345,6 +445,13 @@
 
 {{--  map --}}
 <script>
+    function alertLogin() {
+        return Swal.fire({
+            type: 'error',
+            title: 'Silahkan masuk terlebih dahulu',
+            text: 'Anda belum login'
+        });
+    }
     const token = "{{ config('app.mapbox_api_key') }}"
 
     mapboxgl.accessToken = token
@@ -355,15 +462,6 @@
         zoom: 9
     })
 
-    // if ("geolocation" in navigator) {
-    //     // Mengambil lokasi saat ini
-    //     navigator.geolocation.getCurrentPosition(function(position) {
-    // Mendapatkan koordinat latitude dan longitude
-    // const latitudeMe = position.coords.latitude;
-    // const longitudeMe = position.coords.longitude;
-
-    // console.log("latitudeMe", latitudeMe)
-    // console.log("longitudeMe", longitudeMe)
 
     // button untuk merubah style map
     document.getElementById('streetButton').addEventListener('click', function() {
@@ -391,24 +489,30 @@
         geocoder, 'top-left'
     );
 
+    // <button id="buttonTujuan" class="btn btn-sm popup-btn" style="background: #000;color:#fff" type="button">Pilih sebagai tujuan</button>
     const dataWisata = {!! json_encode($wisata) !!}
 
     dataWisata.forEach((data) => {
-        console.log(data.banner)
         // console.log(data.latitude, data.longitude)
 
         // card popup
-        let cardHtml = `
-                <div class="row m-1 gap-2">
-                    <div class="card p-2">
-                        <span>${data.nama_wisata}</span>
-                        <input type="hidden" id="lat" value="${data.latitude}">
-                        <input type="hidden" id="lng" value="${data.longitude}">
-                        <img width="200px" src="/storage/${data.banner}" alt="${data.nama_wisata}">
-                        <span>Biaya masuk : <span class="badge badge-sm badge-success">${data.harga == 0 ? "Gratis": data.harga}</span></span>
-                        <span>Jam operasional <p>${data.jam_buka} - ${data.jam_tutup}</p></span>
-                        <button id="buttonTujuan" class="btn btn-sm popup-btn" style="background: #000;color:#fff" type="button">Pilih sebagai
-                            tujuan</button>
+        let cardHtml = `<div class="row m-1 gap-2">
+                        <div class="card">
+                            <input type="hidden" id="lat" value="${data.latitude}">
+                            <input type="hidden" id="lng" value="${data.longitude}">
+                            <img width="200px" src="/storage/${data.banner}" alt="${data.nama_wisata}">
+                            <div class="card-body p-2">
+                                <span style="color:black;font-weight:bold;">${data.nama_wisata}</span><br>
+                                <span>Biaya masuk :
+                                    <span class="badge badge-sm badge-success">
+                                    ${data.harga == 0 ? "Gratis": data.harga}
+                                    </span>
+                                </span><br>
+                                <span>Jam operasional
+                                    <p>${data.jam_buka} - ${data.jam_tutup}</p>
+                                </span>
+                            </div>
+
                     </div>
                 </div>`
 
@@ -425,10 +529,7 @@
 
         // timika lat 4.5468, lng 136.8837
         //posisi anda
-        const markerUser = new mapboxgl.Marker({
-                color: 'green'
-            }).setLngLat([136.8837, -4.5468])
-            .addTo(mymap)
+
         // popup custom
         const popup = new mapboxgl.Popup().setHTML(cardHtml)
 

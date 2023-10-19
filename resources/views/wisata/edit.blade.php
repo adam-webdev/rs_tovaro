@@ -312,7 +312,9 @@
                 </div>
 
                 <input type="Button" class="btn btn-secondary btn-send" value="Kembali" onclick="history.go(-1)">
-                <input type="submit" class="btn btn-success btn-send" value="Simpan Perubahan">
+                @role('Admin')
+                    <input type="submit" class="btn btn-success btn-send" value="Simpan Perubahan">
+                @endrole
             </fieldset>
         </div>
     </form>

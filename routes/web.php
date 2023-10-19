@@ -28,8 +28,8 @@ Route::get('/edit-profile/{id}', [UserController::class, "editprofile"])->name('
 Route::put('/update-profile/{id}', [UserController::class, "updateprofile"])->name('update.profile');
 // Route::get('/user/hapus/{id}', [UserController::class, "delete"]);
 
-// hanya admin yang dapat akses route ini
-Route::middleware(['auth', 'redirectBasedOnRole'])->prefix('/admin')->group(function () {
+
+Route::middleware(['auth', 'redirectBasedOnRole'])->prefix('web')->group(function () {
     Route::get('/dashboard', [DashboardController::class, "index"])->name('dashboard');
     Route::resource('/user', UserController::class);
     Route::get('/user/hapus/{id}', [UserController::class, "delete"]);

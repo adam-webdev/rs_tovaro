@@ -5,13 +5,13 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Data Wisata </h1>
         <!-- Button trigger modal -->
-        @hasanyrole('Admin|User')
+        @role('Admin')
             <a href="{{ route('wisata.create') }}">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     + Tambah
                 </button>
             </a>
-        @endhasanyrole
+        @endrole
 
     </div>
 
@@ -59,14 +59,16 @@
                                                 <a class="dropdown-item text-primary font-weight-bold"
                                                     href="{{ route('wisata.show', [$t->id]) }}">
                                                     Detail</a>
-                                                <a class="dropdown-item text-secondary font-weight-bold"
-                                                    href="{{ route('wisata.edit', [$t->id]) }}">Edit </a>
+                                                @role('Admin')
+                                                    <a class="dropdown-item text-secondary font-weight-bold"
+                                                        href="{{ route('wisata.edit', [$t->id]) }}">Edit </a>
 
-                                                <a href="/wisata/hapus/{{ $t->id }}" data-toggle="tooltip"
-                                                    title="Hapus" onclick="return confirm('Yakin Ingin menghapus data?')"
-                                                    class=" dropdown-item text-danger font-weight-bold">
-                                                    Hapus
-                                                </a>
+                                                    <a href="/wisata/hapus/{{ $t->id }}" data-toggle="tooltip"
+                                                        title="Hapus" onclick="return confirm('Yakin Ingin menghapus data?')"
+                                                        class=" dropdown-item text-danger font-weight-bold">
+                                                        Hapus
+                                                    </a>
+                                                @endrole
                                             </div>
                                         </div>
                                         {{-- <a href="{{ route('wisata.show', [$t->id]) }}" data-toggle="tooltip" title="Detail"
