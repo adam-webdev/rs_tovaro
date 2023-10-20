@@ -4,115 +4,111 @@ namespace App\Http;
 
 class Dijkstra
 {
-  public $nodes = [];
-  public $awal;
-  public $akhir;
+  protected $graph;
+  protected $distances;
+  // protected $totalJarak;
+  protected $previous;
+  protected $startNode;
+  protected $unvisitedNodes;
 
-  public function __construct($nodes, $from, $destination)
+  public function __construct($graph)
   {
-    $this->nodes = $nodes;
-    $this->awal = $from;
-    $this->akhir = $destination;
+    $this->graph = $graph;
   }
-  public function call_dijkstra()
+
+  public function shortestPath($startNode, $endNode)
+  {
+    $this->startNode = $startNode;
+    $this->distances = [];
+    $this->previous = [];
+    $this->unvisitedNodes = $this->graph;
+
+    foreach ($this->graph as $node => $neighbors) {
+
+      $this->distances[$node] = INF;
+      $this->previous[$node] = null;
+    }
+
+    $this->distances[$startNode] = 0;
+
+    while ($this->unvisitedNodes) {
+      $closestNode = $this->getClosestNode();
+      // ddd($endNode);
+
+      if ($closestNode === $endNode) {
+
+        return $this->getPath($endNode);
+      }
+
+      foreach ($this->graph[$closestNode] as $neighbor => $distance) {
+        $distanceToNeighbor = $this->distances[$closestNode] + $distance;
+
+        if ($distanceToNeighbor < $this->distances[$neighbor]) {
+          $this->distances[$neighbor] = $distanceToNeighbor;
+          $this->previous[$neighbor] = $closestNode;
+        }
+      }
+      // $totalDistance = 0;
+      // // ddd($this->distances);
+
+      // foreach ($this->distances as $value) {
+      //   if ($value !== INF) {
+      //     $this->totalJarak += $value;
+      //   }
+      // }
+
+      // $this->totalJarak = $totalDistance;
+      unset($this->unvisitedNodes[$closestNode]);
+    }
+
+    return null; // No path found
+  }
+
+  protected function getClosestNode()
   {
 
-    $ver = array();
-    $next = array();
-
-    foreach ($this->nodes as $node) {
-      array_push($ver, $node["awal"], $node["tujuan"]);
-      $next[$node["awal"]][] = array("tujuan" => $node["tujuan"], "cost" => $node["jarak"]);
-      $next[$node["tujuan"]][] = array("tujuan" => $node["awal"], "cost" => $node["jarak"]);
-    }
-
-    // echo '<pre>';
-    // print_r($next);
-    // echo '</pre>';
-    $ver = array_unique($ver);
-    $tujuan = array();
-
-    foreach ($ver as $v) {
-      $tcost[$v] = INF;
-      $tujuan[$v] = NULL;
-    }
-
-    $tcost[$this->awal] = 0;
-    $V = $ver;
-
-    while (count($V) > 0) {
-
-      $min = INF;
-
-      foreach ($V as $vke) {
-        if ($tcost[$vke] < $min) {
-          $min = $tcost[$vke];
-          $u = $vke;
-        }
-      }
-
-      $V = array_diff($V, array($u));
-
-      if ($tcost[$u] == INF or $u == $this->akhir) {
-        break;
-      }
-
-      if (isset($next[$u])) {
-        foreach ($next[$u] as $key => $n) {
-          $cost = $tcost[$u] + $n["cost"];
-          if ($cost < $tcost[$n["tujuan"]]) {
-            $tcost[$n["tujuan"]] = $cost;
-            $tujuan[$n["tujuan"]] = $u;
-          }
-        }
+    $minDistance = INF;
+    $closestNode = null;
+    foreach ($this->unvisitedNodes as $node => $distance) {
+      if ($this->distances[$node] < $minDistance) {
+        $minDistance = $this->distances[$node];
+        $closestNode = $node;
       }
     }
 
-    $path = array();
-    $akh = $this->akhir;
+    return $closestNode;
+  }
 
-    while (isset($tujuan[$akh])) {
-      array_unshift($path, $akh);
-      $akh = $tujuan[$akh];
+  protected function getPath($endNode)
+  {
+
+    $path = [];
+    while ($endNode !== $this->startNode) {
+      $path[] = $endNode;
+      $endNode = $this->previous[$endNode];
     }
-    array_unshift($path, $this->awal);
+    $path[] = $this->startNode;
+    $totalJarak = $this->distances[$path[0]];
 
-    $result['path'] = $path;
-    $result['cost'] = $min;
-
-    return $result;
+    return [array_reverse($path), $totalJarak];
   }
 }
 
-
-// $dataWisata = [
-//   ["jakarta", "bekasi", 18],
-//   ["jakarta", "bogor", 10],
-//   ["bogor", "cianjur", 22],
-//   ["bogor", "depok", 9],
-//   ["tangerang", "bekasi", 49],
-//   ["cianjur", "sukabumi", 5],
-//   ["purwakarta", "sukabumi", 55],
-//   ["cianjur", "bandung", 29],
-//   ["cianjur", "purwakarta", 49],
-//   ["depok", "bekasi", 20],
-//   ["bekasi", "tangerang", 40],
-//   ["jakarta", "tangerang", 10],
-//   ["jakarta", "bandung", 140],
-//   ["bekasi", "karawang", 40],
-//   ["karawang", "cikampek", 20],
-//   ["cikampek", "bekasi", 60],
-//   ["cikampek", "purwakarta", 80],
-//   ["purwakarta", "bandung", 80],
-//   ["bandung", "tangerang", 230],
-//   ["karawang", "jakarta", 90],
+// Contoh penggunaan:
+// $graph = [
+//     'A' => ['B' => 1, 'C' => 4],
+//     'B' => ['A' => 1, 'C' => 2, 'D' => 5],
+//     'C' => ['A' => 4, 'B' => 2, 'D' => 1],
+//     'D' => ['B' => 5, 'C' => 1]
 // ];
-// $dijkstr = new Dijkstra($dataWisata, "jakarta", "bandung");
 
-// $hasil = $dijkstr->call_dijkstra();
-// // $hasil = dijkstraAlgorithm($dataWisata, "karawang", "bandung");
+// $dijkstra = new Dijkstra($graph);
+// $startNode = 'A';
+// $endNode = 'D';
 
-// echo "path yang harus dilewati : " . implode(", ", $hasil['path']) . "\n";
-// echo '<br>';
-// echo "total cost : ";
-// echo (int)$hasil['cost'];
+// $result = $dijkstra->shortestPath($startNode, $endNode);
+// if ($result) {
+//     echo "Jarak terpendek dari $startNode ke $endNode adalah " . implode(' -> ', $result) . "\n";
+// } else {
+//     echo "Tidak ada jalan yang tersedia dari $startNode ke $endNode.\n";
+// }

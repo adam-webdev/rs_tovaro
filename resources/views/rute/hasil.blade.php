@@ -8,9 +8,9 @@
 
     </div>
     @php
-        $totalJarakDijkstra = $path[0];
-        $pathDijkstra = $path[1];
-        $countPathDijkstra = count($path[1]);
+        $totalJarakDijkstra = $path[1];
+        $pathDijkstra = $path[0];
+        $countPathDijkstra = count($path[0]);
         // ddd($countPathDijkstra);
     @endphp
 
