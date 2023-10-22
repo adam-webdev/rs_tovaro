@@ -124,6 +124,7 @@ class AlgoritmaController extends Controller
             $graph[$node] = [];
         }
         // ddd($graphDijkstra);
+
         // Mengisi grafik dengan jarak antar simpul
         foreach ($dataGraph as $data) {
 
@@ -134,9 +135,22 @@ class AlgoritmaController extends Controller
             // $distance = $data[2];
             $distance = $data['jarak'];
 
-            $graph[$source][$destination] = $distance;
+            // ddd(!isset($graph[$source]));
+            if (!isset($graph[$source])) {
+                $graph[$source] = [];
+            }
 
-            $graph[$destination][$source] = $distance; // Grafik tidak berarah, tambahkan arah sebaliknya
+            $graph[$source][$destination] = $distance;
+            // ddd($destination);
+
+            // Memeriksa apakah ada rute balik dari destination ke source
+            if (!isset($graph[$destination])) {
+                $graph[$destination] = [];
+            }
+
+            // $graph[$source][$destination] = $distance;
+
+            // $graph[$destination][$source] = $distance; // Grafik tidak berarah, tambahkan arah sebaliknya
         }
         // ddd($graph);
         // ddd($graph);
@@ -149,7 +163,7 @@ class AlgoritmaController extends Controller
         // $endNode = 'bandung';
 
         $path = $dijkstra->shortestPath($startNode, $endNode);
-        // ddd($result);
+        // ddd($path);
 
         // if ($result) {
         //     echo "Jarak terpendek dari $startNode ke $endNode adalah " . implode(' -> ', $result) . "\n";
