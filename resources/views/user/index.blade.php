@@ -23,24 +23,19 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr align="center">
-                                <th>No</th>
+                                <th width="2%">No</th>
                                 <th>Nama</th>
-                                <th>No Hp</th>
-                                <th>Nik</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Email</th>
                                 <th>Roles</th>
-                                <th>Foto</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($user as $row)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                <tr align="center">
+                                    <td width="2%">{{ $loop->iteration }}</td>
                                     <td>{{ $row->name }}</td>
-                                    <td>{{ $row->no_hp }}</td>
-                                    <td>{{ $row->nik }}</td>
                                     <td>{{ $row->jenis_kelamin }}</td>
                                     <td>{{ $row->email }}</td>
                                     <td>
@@ -48,14 +43,18 @@
                                             <span style="background: green;color:white;padding:4px 8px; border-radius:4px;">
                                                 {{ $row->roles->pluck('name')[0] }}
                                             </span>
-                                        @else
+                                        @elseif ($row->roles->pluck('name')[0] == 'Dokter')
                                             <span
                                                 style="background: rgb(1, 1, 169);color:white;padding:2px 4px; border-radius:4px;">
                                                 {{ $row->roles->pluck('name')[0] }}
                                             </span>
+                                        @else
+                                            <span
+                                                style="background: rgb(207, 104, 0);color:white;padding:2px 4px; border-radius:4px;">
+                                                {{ $row->roles->pluck('name')[0] }}
+                                            </span>
                                         @endif
                                     </td>
-                                    <td> <img src="storage/{{ $row->foto }}" width="200px" alt="profile"> </td>
                                     <td align="center" width="15%">
                                         <div class="dropdown show">
                                             <a style="background: rgb(240, 240, 240)" class="btn  dropdown-toggle"
@@ -65,9 +64,6 @@
                                             </a>
 
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                <a class="dropdown-item text-primary font-weight-bold"
-                                                    href="{{ route('user.show', [$row->id]) }}">
-                                                    Detail</a>
                                                 <a class="dropdown-item text-secondary font-weight-bold"
                                                     href="{{ route('user.edit', [$row->id]) }}">Edit </a>
 

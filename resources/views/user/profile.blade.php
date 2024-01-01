@@ -15,14 +15,7 @@
         <hr>
         <h4 class="mb-4">Profile</h4>
         <div class="row">
-            <div class="col-md-3" style="display: flex; justify-content:space-between; flex-direction:column;">
-                @if ($user->foto != 'default.jpg')
-                    <img class="flex-1" style="border:2px solid black" src="/storage/{{ $user->foto }}" width="200px"
-                        alt="foto profile">
-                @else
-                    <img class="flex-1" src="{{ asset('asset/img/profile.png') }}" width="200px" alt="foto profile">
-                @endif
-            </div>
+
             <div class="col-md-6">
                 <table class="table table-bordered">
                     <tr>
@@ -33,14 +26,14 @@
                         <td>Email</td>
                         <td> <b>{{ $user->email }}</b></td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td>No HP</td>
                         <td> <b>{{ $user->email }}</b></td>
-                    </tr>
-                    <tr>
+                    </tr> --}}
+                    {{-- <tr>
                         <td>Nik</td>
                         <td> <b>{{ $user->nik }}</b></td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <td>Jenis Kelamin</td>
                         <td> <b>{{ $user->jenis_kelamin }}</b></td>
@@ -49,5 +42,26 @@
 
             </div>
         </div>
+        @role('Dokter')
+            <h4 class="mb-4">Poli :</h4>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <table class="table table-bordered">
+                        @foreach ($poli as $poli)
+                            <tr>
+                                <td>Nama Poli</td>
+                                <td> <b>{{ $poli->nama_poli }}</b></td>
+                            </tr>
+                            <tr>
+                                <td>Keterangan</td>
+                                <td> <b>{{ $poli->keterangan }}</b></td>
+                            </tr>
+                        @endforeach
+                    </table>
+
+                </div>
+            </div>
+        @endrole
     </div>
 @endsection

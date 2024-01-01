@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DokterModel;
+use App\Models\ObatModel;
+use App\Models\PasienModel;
+use App\Models\PoliModel;
 use App\Models\Shipment;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,12 +17,10 @@ class DashboardController extends Controller
     {
         $data = [
             "user" => Auth::user()->name,
-            // "pengguna" => User::count(),
-            // "pembayaran" => Shipment::where('status', 'Pembayaran')->count(),
-            // "approve" => Shipment::where('status', 'Approve')->count(),
-            // "delivery" => Shipment::where('status', 'Delivery')->count(),
-            // "jalur_merah" => Shipment::where('status', 'Jalur Merah')->count(),
-            // "spv_verif" => Shipment::where('status', 'spv-verification')->count()
+            "poli" => PoliModel::count(),
+            "pasien" => PasienModel::count(),
+            "dokter" => DokterModel::count(),
+            "obat" => ObatModel::count(),
         ];
         return view("dashboard", $data);
     }

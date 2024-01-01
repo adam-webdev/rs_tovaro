@@ -30,15 +30,16 @@
 
     <style>
         body {
-            background: url("{{ asset('asset/img/bg-home.jpg') }}") no-repeat;
+            background: url("{{ asset('asset/img/bg-home.jpg') }}");
             object-fit: contain;
-            background-position: center;
+            background-size: 100%;
+            /* background-position: center; */
         }
 
         .daftar {
+            width: 500px;
             box-shadow:
-                0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
-            margin: 10px;
+                0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15)
         }
 
         .row {
@@ -55,15 +56,13 @@
 </head>
 
 <body class="d-flex justify-content-center align-items-center">
-    <form action="{{ route('store-user') }}" method="POST" style="margin-top: 50px">
+    <form action="{{ route('polipasien.simpan') }}" method="POST" style="margin-top: 50px">
         @csrf
         <div class="row">
-            {{-- <label for="no_hp">No Rekam Medis :</label> --}}
-            <input type="hidden" name="no_rm" value="{{ $no_rm }}" readonly class="form-control"
-                id="no_hp" required />
+
             <div class="card daftar  p-3">
                 <fieldset>
-                    <legend class="form-header text-center">Form Pendaftaran Pasien</legend>
+                    <legend class="form-header text-center">Form Pendaftaran Poli</legend>
                     <div class="logo">
                         <img class="text-center mt-4" width="120px" src="{{ asset('asset/img/rumahsakit.jpg') }}"
                             alt="logo rs">
@@ -71,14 +70,8 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nama">Nama :</label>
-                                <input type="text" name="nama" placeholder="Masukan nama..." class="form-control"
-                                    id="nama" required />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="no_ktp">No KTP :</label>
                                 <input type="number" minlength="16" maxlength="16" name="no_ktp"
@@ -86,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="no_hp">No Hp :</label>
@@ -104,25 +97,26 @@
                             </div>
                         </div>
 
-                    </div>
+                    </div> --}}
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary w-100">Daftar Pasien</button>
+                            <button type="submit" class="btn btn-primary w-100">Cek No KTP / NIK</button>
                         </div>
                     </div>
-                    <span class="d-block mt-2 mb-2 text-center text-dark">Sudah pernah daftar pasien? silhkan klik
+                    <a href="/" class=" text-center d-block mt-2">kembali</a>
+                    {{-- <span class="d-block mt-2 mb-2 text-center text-dark">Sudah pernah daftar pasien? silhkan klik
                         daftar
                         poli</span>
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="{{ route('daftarpolipasien') }}" class="btn btn-success w-100 text-white">Daftar
+                            <a href="{{ route('daftarpoli.pasien') }}" class="btn btn-success w-100 text-white">Daftar
                                 Poli</a>
                         </div>
                     </div>
                 </fieldset>
                 <span class="text-dark text-center mt-2">Login sebagai Admin atau Dokter <a
                         class="text-dark text-center mt-2" href="{{ route('login') }}"><b><u>Klik
-                                disini</u></b></a></span>
+                                disini</u></b></a></span> --}}
             </div>
         </div>
     </form>

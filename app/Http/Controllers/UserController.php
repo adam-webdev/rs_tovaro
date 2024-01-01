@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DokterModel;
+use App\Models\PoliModel;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -41,34 +45,22 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3',
             'email' => 'required|email|unique:users',
-            'foto' =>  'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|',
-            'no_hp' => 'required|min:10|max:13',
             'password' => 'required',
             'jenis_kelamin' => 'required'
         ]);
 
-        $foto = $request->file('foto');
-        if ($foto) {
-            $originalName = $foto->getClientOriginalName();
-            $unik = time() . '-' . $originalName;
-            $picture = $foto->storeAs('user/profil', $unik);
-        } else {
-            $picture = 'user/profil/default.jpg';
-        }
-
         $new_user = new User();
         $new_user->name = $request->name;
-        $new_user->nik = $request->nik;
         $new_user->jenis_kelamin = $request->jenis_kelamin;
-        $new_user->no_hp = $request->no_hp;
-        $new_user->foto = $picture;
         $new_user->email = $request->email;
-        $new_user->password = bcrypt($request->password);
+        $new_user->password = Hash::make($request->password);
 
-        if ($request->role) {
-            $new_user->assignRole($request->role);
+        if ($request->role === "Dokter") {
+            $new_user->assignRole("Dokter");
+        } else if ($request->role === "Admin") {
+            $new_user->assignRole('Admin');
         } else {
-            $new_user->assignRole('User');
+            $new_user->assignRole('Pasien');
         }
         $new_user->save();
         Alert::success("Tersimpan", "Data Berhasil Disimpan!");
@@ -83,7 +75,9 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('user.profile', compact('user'));
+        $id_poli = DokterModel::select("poli_id")->where("nama", Auth::user()->name)->pluck('poli_id');
+        $poli = PoliModel::whereIn('id', $id_poli)->get();
+        return view('user.profile', compact('user', 'poli'));
     }
 
     /**
@@ -122,37 +116,29 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:100|string',
             'email' => 'required',
-            'foto' =>  'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|',
-            'no_hp' => 'required|min:10|max:13',
             'jenis_kelamin' => 'required'
         ]);
 
         $user = User::findOrfail($id);
-        $foto = $request->file('foto');
-        if ($foto) {
-            if (Storage::disk('public')->exists($user->foto)) {
-                Storage::disk('public')->delete($user->foto);
-            }
-            $originalName = $foto->getClientOriginalName();
-            $unik = time() . '-' . $originalName;
-            $picture = $foto->storeAs('user/profil', $unik);
-        } else {
-            $picture = $user->foto;
-        }
 
         $user->name = $request->name;
-        $user->nik = $request->nik;
         $user->jenis_kelamin = $request->jenis_kelamin;
-        $user->foto = $picture;
-        $user->no_hp = $request->no_hp;
         $user->email = $request->email;
-
         if ($request->password) {
-            $password = bcrypt($request->password);
+            $password = Hash::make($request->password);
         } else {
             $password = $user->password;
         }
         $user->password = $password;
+
+        $user->removeRole("Admin", "Dokter", "Pasien");
+        if ($request->role === "Dokter") {
+            $user->assignRole("Dokter");
+        } else if ($request->role === "Admin") {
+            $user->assignRole('Admin');
+        } else {
+            $user->assignRole('Pasien');
+        }
 
 
         $user->save();
@@ -165,33 +151,17 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3|max:100|string',
             'email' => 'required',
-            'foto' =>  'file|mimetypes:image/jpeg,image/png,image/jpg,image/gif|',
-            'no_hp' => 'required|min:10|max:13',
             'jenis_kelamin' => 'required'
         ]);
 
         $user = User::findOrfail($id);
-        $foto = $request->file('foto');
-        if ($foto) {
-            if (Storage::disk('public')->exists($user->foto)) {
-                Storage::disk('public')->delete($user->foto);
-            }
-            $originalName = $foto->getClientOriginalName();
-            $unik = time() . '-' . $originalName;
-            $picture = $foto->storeAs('user/profil', $unik);
-        } else {
-            $picture = $user->foto;
-        }
 
         $user->name = $request->name;
-        $user->nik = $request->nik;
         $user->jenis_kelamin = $request->jenis_kelamin;
-        $user->foto = $picture;
-        $user->no_hp = $request->no_hp;
         $user->email = $request->email;
 
         if ($request->password) {
-            $password = bcrypt($request->password);
+            $password = Hash::make($request->password);
         } else {
             $password = $user->password;
         }
@@ -211,9 +181,6 @@ class UserController extends Controller
     public function delete($id)
     {
         $user = User::findOrFail($id);
-        if (Storage::disk('public')->exists($user->foto)) {
-            Storage::disk('public')->delete($user->foto);
-        }
         $user->delete();
         $user->removeRole("Admin", "Manager", "User");
         Alert::success("Terhapus", "Data Berhasil Terhapus");

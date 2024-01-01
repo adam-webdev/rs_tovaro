@@ -85,17 +85,17 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="form-group row mt-4">
+                        {{-- <div class="form-group row mt-4">
                             <div class="col-md-12 offset-md-12 text-center">
                                 <a style="color:black" href="{{ route('register') }}">Belum punya akun ? silahkan
                                     <b>Register</b></a>
                             </div>
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
 
                 <div class="col-md-6">
-                    <img src="{{ asset('asset/img/bali.jpg') }}" style="object-fit: cover" width="100%"
+                    <img src="{{ asset('asset/img/rumahsakit.jpg') }}" style="object-fit: cover" width="100%"
                         height="100%">
                 </div>
             </div>

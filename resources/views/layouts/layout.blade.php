@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link rel="icon" type="image/jpg" sizes="16x16" href="/favicon.jpg">
+    <link rel="icon" type="image/jpg" sizes="16x16" href="/rumahsakit.jpg">
     <link rel="manifest" href="/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
@@ -30,17 +30,6 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.js"></script>
 
-    <!-- Mapbox -->
-
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
-
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-    <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
-        type="text/css">
 
 
 
@@ -76,16 +65,20 @@
         <ul class="navbar-nav sidebar accordion" id="accordionSidebar"
             style="background: hsl(0, 0%, 100%); color:#0000aa;">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand text-dark font-weight-bold d-flex align-items-center justify-content-center"
-                href="/" style="margin-top:20px">
-                <div class="sidebar-brand-icon ">
-                    {{-- <img src="{{ asset('asset/img/bali.jpg') }}" width="120" style="border:solid 1px black "> --}}
-                    <i class="fa fa-home"></i>
-                </div>
+            <div>
 
-                Wisata
-            </a>
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand text-dark font-weight-bold d-flex align-items-center justify-content-center"
+                    href="/" style="margin-top:20px">
+                    <div class="sidebar-brand-icon ">
+                        <img src="{{ asset('asset/img/rumahsakit.jpg') }}" width="120"
+                            style="border:solid 1px black ">
+                        {{-- <i class="fa fa-home"></i> --}}
+                    </div>
+
+                </a>
+                <p class="ml-3 mt-4 text-center"><b>RS. Tovaro </b></p>
+            </div>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -98,53 +91,73 @@
                     <i class="fa fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link collapsed text-white" href="{{ route('user.index') }}" data-toggle="collapse"
-                    data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder-open"></i>
-                    <span>Menu Master</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item fas fa-folder" href="{{ route('barang.index') }}"> Master Barang </a>
 
-                    </div>
-                </div>
-            </li> --}}
-
-            {{-- <li class="nav-item">
-                <a class="nav-link collapsed text-white" href="#" data-toggle="collapse"
-                    data-target="#collapsePages3" aria-expanded="true" aria-controls="collapsePages3">
-                    <i class="fas fa-fw fa-folder-open"></i>
-                    <span>Data History</span>
-                </a>
-                <div id="collapsePages3" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item fas fa-folder" href="{{ route('history-barang.index') }}"> History
-                            Barang </a>
-                        <a class="collapse-item fas fa-arrow-circle-left" href="{{ route('history-kondisi.index') }}">
-                            History Kondisi </a>
-
-                    </div>
-                </div>
-            </li> --}}
-            @role('Admin')
-                <li class="nav-item">
-                    <a class="nav-link text-white {{ request()->is('admin/user') ? 'active' : '' }}"
-                        href="{{ route('user.index') }}">
-                        <i class="fas fa-user-alt "></i>
-                        <span>User</span></a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-white {{ request()->is('admin/graph') ? 'active' : '' }}"
-                        href="{{ route('graph.index') }}">
-                        <i class="fas fa-map-marked-alt"></i>
-                        <span>Data Graph</span></a>
-                </li>
-            @endrole
+            {{-- @role('Admin') --}}
             <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('user') ? 'active' : '' }}"
+                    href="{{ route('user.index') }}">
+                    <i class="fas fa-user-alt "></i>
+                    <span>User</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('dokter') ? 'active' : '' }}"
+                    href="{{ route('dokter.index') }}">
+                    <i class="fas fa-user-md"></i>
+                    <span>Data Dokter</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('pasien') ? 'active' : '' }}"
+                    href="{{ route('pasien.index') }}">
+                    <i class="fas fa-user-injured"></i>
+                    <span>Data Pasien</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('obat') ? 'active' : '' }}"
+                    href="{{ route('obat.index') }}">
+                    <i class="fas fa-pills"></i>
+                    <span>Data Obat</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('poli') ? 'active' : '' }}"
+                    href="{{ route('poli.index') }}">
+                    <i class="fas fa-hospital"></i>
+                    <span>Data Poli</span></a>
+            </li>
+            {{-- <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('daftarpoli') ? 'active' : '' }}"
+                        href="{{ route('daftarpoli.index') }}">
+                        <i class="fas fa-notes-medical"></i>
+                        <span>Data Daftar Poli</span></a>
+                </li> --}}
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('periksa') ? 'active' : '' }}"
+                    href="{{ route('periksa.index') }}">
+                    <i class="fas fa-stethoscope"></i>
+                    <span>Data Periksa</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('detailperiksa') ? 'active' : '' }}"
+                    href="{{ route('detailperiksa.index') }}">
+                    <i class="fas fa-diagnoses"></i>
+                    <span> Detail Periksa</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('jadwalperiksa') ? 'active' : '' }}"
+                    href="{{ route('jadwalperiksa.index') }}">
+                    <i class="fas fa-calendar-plus"></i>
+                    <span> Jadwal Periksa</span></a>
+            </li>
+            {{-- @endrole --}}
+            {{-- @role('Dokter') --}}
+            <li class="nav-item">
+                <a class="nav-link text-white {{ request()->is('periksapasien') ? 'active' : '' }}"
+                    href="{{ route('periksapasien') }}">
+                    <i class="fas fa-user-injured"></i>
+                    <span>Periksa Pasien </span></a>
+            </li>
+            {{-- @endrole --}}
+            {{-- <li class="nav-item">
 
                 <a class="nav-link text-white {{ request()->is('admin/wisata') ? 'active' : '' }}"
                     href="{{ route('wisata.index') }}">
@@ -156,7 +169,7 @@
                     href="{{ route('rute.index') }}">
                     <i class="fas fa-route"></i>
                     <span>Perhitungan Rute </span></a>
-            </li>
+            </li> --}}
 
             {{--
                 <li class="nav-item">
@@ -234,7 +247,7 @@
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <div class="input-group-append">
-                                <h4 class="text-dark font-weight-bold">Sistem Wisata </h4>
+                                <h4 class="text-dark font-weight-bold">Sistem Informasi Rumah Sakit </h4>
                             </div>
                         </div>
                     </form>
@@ -273,7 +286,8 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span
                                     class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <img class="img-profile rounded-circle" src="/storage/{{ Auth::user()->foto }}">
+                                <img class="img-profile rounded-circle"
+                                    src="{{ asset('/asset/img/rumahsakit.jpg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -311,7 +325,7 @@
             <footer class="sticky-footer">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Dibuat oleh Wulan<br> &copy; Sistem Wisata Mimika, Papua Tengah. </span>
+                        <span>Dibuat oleh Wibidev<br> &copy; Sistem Informasi Rumah Sakit Tovaro, Indonesia. </span>
                     </div>
                 </div>
             </footer>

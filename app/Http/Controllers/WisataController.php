@@ -17,7 +17,7 @@ class WisataController extends Controller
      */
     public function index()
     {
-        $wisata = Wisata::all();
+        $wisata = Wisata::orderBy('id', 'desc')->get();
         return view('wisata.index', compact('wisata'));
     }
     public function homeUser()
@@ -195,6 +195,7 @@ class WisataController extends Controller
      */
     public function delete($id)
     {
+        var_dump($id);
         $wisata = Wisata::findOrFail($id);
         $wisata_images = WisataImages::where('wisata_id', $id)->get();
         foreach ($wisata_images as $item) {

@@ -2,58 +2,72 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="card p-2">
-        <h4 class="p-2">Selamat Datang <b>{{ $user }}</b></h4>
-        <div class="row px-4 mt-3 justify-content-between align-items-center">
-            {{-- <div class="col-md-2">
-                <img src="{{ asset('asset/img/approve.svg') }}" width="50px" alt="">
-                <p style="font-size: 20px; margin-top:10px"> {{ $approve }}</p>
-                <p>PIB Proses Approve</p>
+    <div class="card p-4">
+        <h5>Selamat Datang <b>{{ Auth::user()->name }} </b> di Dashboard Sistem Informasi Produksi</h5>
+        <hr>
+        <div class="row ">
+            <div class="col-md-3">
+                <div class="card p-2 cardMenu">
+                    <div class="d-flex align-items-center">
+                        <span class="p-2 mr-4" style="background: rgba(240, 240, 240, 0.661)">
+                            <p><i class="fas fa-user-injured text-primary" style="font-size:40px"></i></p>
+                            <p>Pasien</p>
+                        </span>
+                        <span>
+                            <p class="jumlah  font-weight-bold" style="font-size: 24px">{{ $pasien }}</p>
+                            <a href="{{ route('pasien.index') }}" class="text-dark ">Detail
+                                <i class="fas fa-arrow-right"></i></a>
+                        </span>
+                    </div>
+                </div>
             </div>
-
-            <div class="col-md-2">
-                <img src="{{ asset('asset/img/pembayaran.svg') }}" width="50px" alt="">
-                <p style="font-size: 20px; margin-top:10px"> {{ $pembayaran }}</p>
-                <p>Pembayaran</p>
+            <div class="col-md-3">
+                <div class="card p-2 cardMenu">
+                    <div class="d-flex align-items-center">
+                        <span class="p-2 mr-4" style="background: rgba(240, 240, 240, 0.661)">
+                            <p><i class=" fas fa-user-md text-primary" style="font-size:40px"></i></p>
+                            <p>Dokter</p>
+                        </span>
+                        <span>
+                            <p class="jumlah  font-weight-bold" style="font-size: 24px">{{ $dokter }}</p>
+                            <a href="{{ route('dokter.index') }}" class="text-dark ">Detail <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2">
-                <img src="{{ asset('asset/img/merah.svg') }}" width="50px"alt="">
-                <p style="font-size: 20px; margin-top:10px"> {{ $jalur_merah }}</p>
-                <p>Jalur Merah</p>
-
+            <div class="col-md-3">
+                <div class="card p-2 cardMenu">
+                    <div class="d-flex align-items-center">
+                        <span class="p-2 mr-4" style="background: rgba(240, 240, 240, 0.661)">
+                            <p><i class="fas fa-hospital text-primary" style="font-size:40px"></i></p>
+                            <p>Poli</p>
+                        </span>
+                        <span>
+                            <p class="jumlah font-weight-bold" style="font-size: 24px">{{ $poli }}</p>
+                            <a href="{{ route('poli.index') }}" class="text-dark">Detail <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2">
-                <img src="{{ asset('asset/img/delivery.svg') }}" width="50px" alt="">
-                <p style="font-size: 20px; margin-top:10px"> {{ $delivery }}</p>
-                <p>Delivery</p>
+            <div class="col-md-3">
+                <div class="card p-2 cardMenu">
+                    <div class="d-flex align-items-center">
+                        <span class="p-2 mr-4" style="background: rgba(240, 240, 240, 0.661)">
+                            <p><i class="fas fa-pills text-primary" style="font-size:40px"></i></p>
+                            <p>Obat</p>
+                        </span>
+                        <span>
+                            <p class="jumlah  font-weight-bold" style="font-size: 24px ">{{ $obat }}</p>
+                            <a href="{{ route('obat.index') }}" class="text-dark">Detail <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-2">
-                <img src="{{ asset('asset/img/ceklis.png') }}" width="50px" alt="">
-                <p style="font-size: 20px; margin-top:10px"> {{ $spv_verif }}</p>
-                <p>Spv Verification</p>
-            </div> --}}
         </div>
-
     </div>
 
-    {{-- <div class="row align-items-center">
-        <div class="col-md-4 ml-4">
-            <img width="400px" height="400px" src="{{ asset('asset/img/company.svg') }}" alt="">
-        </div>
-        <div class="col-md-6">
-            <div class="row">
 
-                <div class="col-md-4">
-                    <a style="text-decoration:none; color:black; hover" href="{{ route('user.index') }}">
-                        <div class="card p-4">
-                            <p style="font-weight: 700">Pengguna</p>
-                            <p style="font-weight: 700; font-size:38px;">{{ $pengguna }}</p>
-                        </div>
-                    </a>
-                </div>
-
-            </div>
-
-        </div>
-    </div> --}}
 @endsection

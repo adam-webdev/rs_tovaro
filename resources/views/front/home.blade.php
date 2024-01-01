@@ -20,17 +20,6 @@
 
 
 
-    {{-- mapbox --}}
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
-
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css' rel='stylesheet' />
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
-    <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
-        type="text/css">
-
 
     <link href="{{ asset('asset/vendor/select2/dist/css/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -41,134 +30,11 @@
     <link href="{{ asset('asset/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('asset/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <style>
-        .video-background {
-            justify-content: center;
-            position: relative;
-            align-items: center;
-            height: 100vh;
-            /* overflow: hidden; */
 
-        }
-
-        .video-background video {
-            filter: brightness(50%);
-            /* Mengurangi kecerahan menjadi 50% dari aslinya */
-            contrast: 0.7;
-            height: 100%;
-            /* Mengurangi kontras sebesar 30% dari aslinya */
-            /* Video akan memiliki tinggi 100% dari tinggi layar */
-            /* Minimum tinggi video akan sama dengan tinggi layar */
-            width: 100%;
-            /* Video akan memiliki lebar 100% */
-            /* Video akan mengisi area dengan menjaga aspek rasio */
-        }
-
-        .screen-layout {
-            display: block;
-            position: relative;
-        }
-
-        .navbar {
-            top: 0;
-            width: 100%;
-            position: fixed;
-            padding: 0 100px;
-            transition: top 0.3s;
-            z-index: 99999;
-        }
-
-        .content {
-            display: flex;
-            width: 52%;
-            justify-content: center;
-            align-items: center;
-            margin-top: 400px;
-            font-weight: bold;
-            position: absolute;
-            font-family: 'Fira Code';
-
-        }
-
-        .content p {
-            font-size: 32px;
-            color: white;
-        }
-
-        .section1 {
-            display: flex;
-            align-items: center;
-            height: 400px;
-        }
-
-        @media screen and (max-width:767px) {
-            .content p {
-                font-size: 24px;
-            }
-        }
-
-        @media screen and (max-width:450px) {
-            .navbar {
-                padding: 0 30px;
-            }
-
-            .content p {
-                font-size: 18px;
-            }
-
-            .logo {
-                font-size: 18px;
-
-            }
-        }
-
-        #buttons {
-            position: absolute;
-            bottom: 0;
-            margin-bottom: 10px;
-            left: 100px;
-            z-index: 1;
-        }
-
-        .marker-custom {
-            border-radius: 50%;
-            cursor: pointer;
-            background-size: cover;
-            border: 1px solid rgb(239, 98, 16);
-        }
-
-        .popup-btn:focus {
-            border: none;
-        }
-
-        .popup-btn:hover {
-            transition: .5s;
-            background: rgba(1, 1, 1, 0.637) !important
-        }
-
-        .icon i {
-            font-size: 34px;
-        }
-
-        .div {
-            display: flex;
-            flex-direction: column;
-            row-gap: 8px;
-            align-items: center;
-            justify-content: center;
-        }
     </style>
 </head>
 
 <body style="overflow-x:hidden">
-
-    {{-- menu --}}
-
-
-    {{-- @php
-        if (Auth::user() && Auth::user()->hasRole('Admin')) {
-            redirect('/dashboard');
-        }
-    @endphp --}}
 
     <div class="video-background">
         <video autoplay muted loop poster="{{ asset('asset/img/bali.jpg') }}" width="100%"

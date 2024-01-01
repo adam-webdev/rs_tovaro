@@ -24,11 +24,11 @@
 
             <div class="row">
                 <!-- Nested Row within Card Body -->
-                <div class="col-md-5">
-                    <img src="{{ asset('asset/img/bali.jpg') }}" style="object-fit: cover" width="100%"
+                <div class="col-md-6">
+                    <img src="{{ asset('asset/img/rumahsakit.jpg') }}" style="object-fit: cover" width="90%"
                         height="100%">
                 </div>
-                <div class="col-md-7 p-4 align-items-center">
+                <div class="col-md-6 p-4 align-items-center">
                     <div class="flex">
                         <i class="fas fa-long-arrow-alt-left"></i>
                         <a href="/" style="margin-left:10px;color: black;font-size:14px;">Home</a>
@@ -64,30 +64,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label for="nik">{{ __('Nik :') }}</label>
-                                <input id="nik" type="number"
-                                    class="form-control @error('nik') is-invalid @enderror" name="nik"
-                                    value="{{ old('nik') }}" required autocomplete="off" autofocus>
-                                @error('nik')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="col-md-6">
-                                <label for="no_hp">{{ __('No HP :') }}</label>
-                                <input id="no_hp" type="number"
-                                    class="form-control @error('no_hp') is-invalid @enderror" name="no_hp"
-                                    value="{{ old('no_hp') }}" required autocomplete="off" autofocus>
-                                @error('no_hp')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+
                         <div class="form-group row">
 
                             <div class="col-md-6">
