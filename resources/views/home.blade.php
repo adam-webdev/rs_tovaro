@@ -107,7 +107,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary w-100">Daftar Pasien</button>
+                            <button type="submit" class="btn btn-primary w-100">Simpan</button>
                         </div>
                     </div>
                     <span class="d-block mt-2 mb-2 text-center text-dark">Sudah pernah daftar pasien? silhkan klik

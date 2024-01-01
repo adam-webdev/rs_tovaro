@@ -68,10 +68,17 @@ class DokterController extends Controller
 
     public function daftarperiksapasien()
     {
-        $id_dokter = DokterModel::select("id")->where('nama', Auth::user()->name)->pluck("id");
-        $daftarpasien = JadwalPeriksaModel::select('id')->where('dokter_id', $id_dokter)->pluck('id');
-        $daftarpoli = DaftarPoliModel::with(['pasien', 'jadwalperiksa'])->whereIn('jadwalperiksa_id', $daftarpasien)->get();
-        return view('dokter.periksapasien', compact('daftarpoli'));
+        $daftarpoli = DokterModel::find(Auth::user()->id);
+        // ddd($daftarpoli);
+        if ($daftarpoli) {
+            $id_dokter = DokterModel::select("id")->where('nama', Auth::user()->name)->pluck("id");
+            $daftarpasien = JadwalPeriksaModel::select('id')->where('dokter_id', $id_dokter)->pluck('id');
+            $daftarpoli = DaftarPoliModel::with(['pasien', 'jadwalperiksa'])->whereIn('jadwalperiksa_id', $daftarpasien)->get();
+            return view('dokter.periksapasien', compact('daftarpoli'));
+        } else {
+            $daftarpoli = [];
+            return view('dokter.periksapasien', compact('daftarpoli'));
+        }
     }
     public function edit($id)
     {

@@ -3,6 +3,10 @@
 
 
 @section('content')
+    @php
+        setlocale(LC_TIME, 'id_ID');
+        \Carbon\Carbon::setLocale('id');
+    @endphp
     @include('sweetalert::alert')
 
     <form action="{{ route('poli.update', [$poli->id]) }}" method="POST">

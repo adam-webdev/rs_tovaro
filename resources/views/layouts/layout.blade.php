@@ -57,7 +57,10 @@
 </head>
 
 <body id="page-top">
-
+    @php
+        setlocale(LC_TIME, 'id_ID');
+        \Carbon\Carbon::setLocale('id');
+    @endphp
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -86,62 +89,54 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{{ route('dashboard') }}">
-                    <i class="fa fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
 
-            {{-- @role('Admin') --}}
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('user') ? 'active' : '' }}"
-                    href="{{ route('user.index') }}">
-                    <i class="fas fa-user-alt "></i>
-                    <span>User</span></a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('dokter') ? 'active' : '' }}"
-                    href="{{ route('dokter.index') }}">
-                    <i class="fas fa-user-md"></i>
-                    <span>Data Dokter</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('pasien') ? 'active' : '' }}"
-                    href="{{ route('pasien.index') }}">
-                    <i class="fas fa-user-injured"></i>
-                    <span>Data Pasien</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('obat') ? 'active' : '' }}"
-                    href="{{ route('obat.index') }}">
-                    <i class="fas fa-pills"></i>
-                    <span>Data Obat</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('poli') ? 'active' : '' }}"
-                    href="{{ route('poli.index') }}">
-                    <i class="fas fa-hospital"></i>
-                    <span>Data Poli</span></a>
-            </li>
-            {{-- <li class="nav-item">
-                    <a class="nav-link text-white {{ request()->is('daftarpoli') ? 'active' : '' }}"
-                        href="{{ route('daftarpoli.index') }}">
-                        <i class="fas fa-notes-medical"></i>
-                        <span>Data Daftar Poli</span></a>
-                </li> --}}
+            @role('Admin')
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ route('dashboard') }}">
+                        <i class="fa fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('user') ? 'active' : '' }}"
+                        href="{{ route('user.index') }}">
+                        <i class="fas fa-user-alt "></i>
+                        <span>User</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('dokter') ? 'active' : '' }}"
+                        href="{{ route('dokter.index') }}">
+                        <i class="fas fa-user-md"></i>
+                        <span>Data Dokter</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('pasien') ? 'active' : '' }}"
+                        href="{{ route('pasien.index') }}">
+                        <i class="fas fa-user-injured"></i>
+                        <span>Data Pasien</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('obat') ? 'active' : '' }}"
+                        href="{{ route('obat.index') }}">
+                        <i class="fas fa-pills"></i>
+                        <span>Data Obat</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white {{ request()->is('poli') ? 'active' : '' }}"
+                        href="{{ route('poli.index') }}">
+                        <i class="fas fa-hospital"></i>
+                        <span>Data Poli</span></a>
+                </li>
+            @endrole
+
             <li class="nav-item">
                 <a class="nav-link text-white {{ request()->is('periksa') ? 'active' : '' }}"
                     href="{{ route('periksa.index') }}">
                     <i class="fas fa-stethoscope"></i>
                     <span>Data Periksa</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ request()->is('detailperiksa') ? 'active' : '' }}"
-                    href="{{ route('detailperiksa.index') }}">
-                    <i class="fas fa-diagnoses"></i>
-                    <span> Detail Periksa</span></a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link text-white {{ request()->is('jadwalperiksa') ? 'active' : '' }}"
                     href="{{ route('jadwalperiksa.index') }}">

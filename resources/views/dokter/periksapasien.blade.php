@@ -36,18 +36,20 @@
                                     <td>{{ \Carbon\Carbon::parse($dp->jadwalperiksa->jam_mulai)->format('H:i') }} -
                                         {{ \Carbon\Carbon::parse($dp->jadwalperiksa->jam_selesai)->format('H:i') }}</td>
                                     <td align="center" width="15%">
-                                        <div class="dropdown show">
+                                        {{-- <div class="dropdown show">
                                             <a style="background: rgb(240, 240, 240)" class="btn  dropdown-toggle"
                                                 href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                                                 aria-haspopup="true" aria-expanded="false">
                                                 Actions
-                                            </a>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            </a> --}}
+                                        {{-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLink"> --}}
 
-                                                {{-- <a class="dropdown-item text-secondary font-weight-bold"
-                                                    href="{{ route('dokter.edit', [$dokter->id]) }}">Edit </a> --}}
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-sm btn-success font-weight-bold"
+                                            href="{{ route('periksa.pasien', [$dp->id]) }}">
+                                            <i class="fas fa-edit"></i>
+                                            catatan </a>
+                                        {{-- </div>
+                                        </div> --}}
                                     </td>
                                 </tr>
                             @endforeach

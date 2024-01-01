@@ -75,10 +75,19 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        $id_poli = DokterModel::select("poli_id")->where("nama", Auth::user()->name)->pluck('poli_id');
+        $id_poli = DokterModel::select("poli_id")->where('nama', Auth::user()->name)->pluck("poli_id");
+        // ddd($id_dokter);
         $poli = PoliModel::whereIn('id', $id_poli)->get();
         return view('user.profile', compact('user', 'poli'));
     }
+    // public function profiledokter($id)
+    // {
+    //     $id_poli = DokterModel::select("poli_id")->where('nama', Auth::user()->name)->pluck("poli_id");
+    //     $user = User::findOrFail($id);
+    //     ddd($id_poli);
+    //     // $poli = PoliModel::whereIn('id', $id_poli)->get();
+    //     return view('user.profile', compact('user', 'poli'));
+    // }
 
     /**
      * Show the form for editing the specified resource.

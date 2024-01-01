@@ -4,7 +4,7 @@
 @section('content')
     <div class="card p-4">
         <div class="d-sm-flex align-items-center justify-content-between ">
-            <h1 class="h3 mb-0 text-gray-800">Detail Data User </h1>
+            <h1 class="h3 mb-0 text-gray-800">Detail Profil </h1>
             <!-- Button trigger modal -->
             <a href="{{ route('user.edit', [$user->id]) }}" data-toggle="tooltip" title="Edit"
                 class="d-none  d-sm-inline-block btn btn-primary shadow-sm">
@@ -48,14 +48,14 @@
 
                 <div class="col-md-6">
                     <table class="table table-bordered">
-                        @foreach ($poli as $poli)
+                        <tr>
+                            <td>Nama Poli</td>
+                            <td>Keterangan</td>
+                        </tr>
+                        @foreach ($poli as $p)
                             <tr>
-                                <td>Nama Poli</td>
-                                <td> <b>{{ $poli->nama_poli }}</b></td>
-                            </tr>
-                            <tr>
-                                <td>Keterangan</td>
-                                <td> <b>{{ $poli->keterangan }}</b></td>
+                                <td> <b>{{ $p->nama_poli }}</b></td>
+                                <td> <b>{{ $p->keterangan }}</b></td>
                             </tr>
                         @endforeach
                     </table>

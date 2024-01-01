@@ -36,6 +36,7 @@ Route::middleware(['auth', 'redirectBasedOnRole'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, "index"])->name('dashboard');
     Route::resource('/user', UserController::class);
     Route::get('/user/hapus/{id}', [UserController::class, "delete"]);
+    // Route::get('/user/{id}/profiledokter', [UserController::class, "profiledokter"])->name("profiledokter");
 
     // pasien
     Route::resource('/pasien', PasienController::class);
@@ -57,6 +58,8 @@ Route::middleware(['auth', 'redirectBasedOnRole'])->group(function () {
     // periksa
     Route::resource('/periksa', PeriksaController::class);
     Route::get('/periksa/hapus/{id}', [PeriksaController::class, "delete"]);
+    Route::get('/periksa-pasien/{id}', [PeriksaController::class, "periksa"])->name('periksa.pasien');
+    Route::get('/rincian-biaya/{id}', [PeriksaController::class, "rincian"])->name('rincian');
 
     // daftarpoli
     Route::resource('/daftarpoli', DaftarpoliController::class);
