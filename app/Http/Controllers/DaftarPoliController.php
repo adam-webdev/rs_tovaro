@@ -41,6 +41,7 @@ class DaftarPoliController extends Controller
         $dayNow = now()->toDateString();
         $noAntrianTerakhir = DaftarPoliModel::whereDate('created_at', $dayNow)->max('no_antrian') + 1;
         $jadwal = DaftarPoliModel::with("jadwalperiksa.dokter.poli")->where("pasien_id", $cek_nik->id)->first();
+        // ddd($jadwal);
         $add_daftarpoli = new DaftarPoliModel();
         $add_daftarpoli->keluhan = $request->keluhan;
         $add_daftarpoli->no_antrian = $noAntrianTerakhir;

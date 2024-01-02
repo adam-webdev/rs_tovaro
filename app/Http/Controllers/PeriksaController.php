@@ -19,7 +19,9 @@ class PeriksaController extends Controller
     public function index()
     {
         // $daftarpoli = DokterModel::find(Auth::user()->name);
-        $id_dokter = DokterModel::select("id")->where('nama', Auth::user()->name)->pluck("id");
+        $id_dokter = (array) DokterModel::select("id")->where('nama', Auth::user()->name)->pluck("id");
+
+        // ddd(gettype($id_dokter));
         if ($id_dokter) {
             // $id_dokter = DokterModel::select("id")->where('nama', Auth::user()->name)->pluck("id");
             $daftarpasien = JadwalPeriksaModel::select('id')->where('dokter_id', $id_dokter)->pluck('id');
